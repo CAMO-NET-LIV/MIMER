@@ -19,8 +19,14 @@ You can install the development version of amrabxlookup from
 [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
+install.packages("devtools")
 devtools::install_github("CAMO-NET-LIV/amrabxlookup")
+
+or
+
+install.packages("pak")
+pak::pak("CAMO-NET-LIV/amrabxlookup")
+
 ```
 
 ## Example
