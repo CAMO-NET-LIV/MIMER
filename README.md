@@ -1,18 +1,17 @@
 
+# amrabxlookup
+
+<!-- badges: start -->
+
+This is utility to clean antiobiotics data by leveraging AMR Package.
+<!-- badges: end -->
+
+The goal of amrabxlookup is to find matching antibiotics in AMR dataset.
 
 ## Usage
 
 amrabxlookup::clean_antibiotics( x , … )
 
-# amrabxlookup
-
-<!-- badges: start -->
-
-**This is utility to clean antiobiotics data by leveraging AMR
-Package.**
-<!-- badges: end -->
-
-The goal of amrabxlookup is to find matching antibiotics in AMR dataset.
 
 ## Installation
 
