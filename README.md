@@ -20,7 +20,7 @@ You can install the development version of amrabxlookup from
 
 ``` r
 install.packages("devtools")
-devtools::install_github("CAMO-NET-LIV/amrabxlookup")
+devtools::install_github("CAMO-NET-LIV/amrabxlookup", auth_token="<Your Personal Access Token (PAT)>")
 
 or
 
