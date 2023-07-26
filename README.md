@@ -2,11 +2,8 @@
 # amrabxlookup
 
 <!-- badges: start -->
-
-This is utility to clean antiobiotics data by leveraging AMR Package.
+The goal of amrabxlookup is to find matching antibiotics in AMR dataset using fuzyy string matching.
 <!-- badges: end -->
-
-The goal of amrabxlookup is to find matching antibiotics in AMR dataset.
 
 ## Usage
 
