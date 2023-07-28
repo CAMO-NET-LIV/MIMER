@@ -46,6 +46,9 @@ globalVariables(c("drug"))
 
 #' @export
 clean_antibiotics <- function(x, ...) {
+
+  stopifnot(is.data.frame(x) | is.character(x))
+
   UseMethod("clean_antibiotics")
 }
 
@@ -59,6 +62,13 @@ clean_antibiotics.character <- function(x, ...) {
 
 #' @export
 clean_antibiotics.data.frame <- function(x, drug_col,fuzzy_matching_method = "osa", ...) {
+
+  stopifnot(nargs()[[1]] >= 2)
+
+  if("abx_name" %in% colnames(x) | "synonyms" %in% colnames(x) | "is_abx" %in% colnames(x))
+  {
+    stop(message("Please pass valid Data Frame, column names like abx_name/synonyms/is_abx are not allowed"))
+  }
 
   #Creating a antibiotics-lookup table
   df_amr_antibiotics_lookup <- populate_amr_antibiotics()
