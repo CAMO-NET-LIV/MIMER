@@ -2,7 +2,7 @@
 # amrabxlookup
 
 <!-- badges: start -->
-The goal of amrabxlookup is to find matching antibiotics in AMR dataset using fuzyy string matching.
+The goal of amrabxlookup is to find matching antibiotics in AMR dataset using fuzzy string matching.
 <!-- badges: end -->
 
 ## Usage
