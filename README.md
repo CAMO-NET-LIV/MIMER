@@ -1,6 +1,6 @@
 
-**This is utility to clean antiobiotics data by leveraging AMR
-Package.**
+**This library mainly for cleaning antiobiotics data by leveraging AMR
+Package, with some additional useful functions.**
 
 ## Usages
 
