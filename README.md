@@ -61,8 +61,10 @@ amrabxlookup::clean_antibiotics(df, drug_col = drug)
 library(amrabxlookup)
 ## basic example code
 df <- data.frame(subject_id = c(10000032,10000280,10000280,10000280,10000826,10000826),
-      chartdate = c('2150-10-12','2150-10-12','2152-03-17','2151-12-08','2187-09-26','2188-07-01'),AMIKACIN=c('S','R','S','S','R','R'))
-amrabxlookup::add_previous_resistance(df, cols="AMIKACIN", sort_by_col='chartdate',patient_id_col='subject_id', event_r_value='R')
+      chartdate = c('2150-10-12','2150-10-12','2152-03-17','2151-12-08','2187-09-26','2188-07-01'),
+      AMIKACIN=c('S','R','S','S','R','R'))
+amrabxlookup::add_previous_resistance(df, cols="AMIKACIN", sort_by_col='chartdate',
+                                      patient_id_col='subject_id', event_r_value='R')
 ```
 
     ## [1] "Adding Resistance Column for "
