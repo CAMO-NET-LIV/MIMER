@@ -61,10 +61,8 @@ amrabxlookup::clean_antibiotics(df, drug_col = drug)
 library(amrabxlookup)
 ## basic example code
 df <- data.frame(subject_id = c(10000032,10000280,10000280,10000280,10000826,10000826),
-      chartdate = c('2150-10-12','2150-10-12','2151-03-17','2151-12-08','2187-09-26','2188-07-01'),
-      AMIKACIN=c('R','R','S','S','S','R'))
-amrabxlookup::add_previous_resistance(df, cols="AMIKACIN", sort_by_col='chartdate',patient_id_col='subject_id',
-                                        event_r_value='R')
+      chartdate = c('2150-10-12','2150-10-12','2152-03-17','2151-12-08','2187-09-26','2188-07-01'),AMIKACIN=c('S','R','S','S','R','R'))
+amrabxlookup::add_previous_resistance(df, cols="AMIKACIN", sort_by_col='chartdate',patient_id_col='subject_id', event_r_value='R')
 ```
 
     ## [1] "Adding Resistance Column for "
@@ -75,9 +73,9 @@ amrabxlookup::add_previous_resistance(df, cols="AMIKACIN", sort_by_col='chartdat
     ## # Groups:   subject_id [3]
     ##   subject_id chartdate  AMIKACIN pr_R_AMIKACIN
     ##        <dbl> <chr>      <chr>    <lgl>        
-    ## 1   10000032 2150-10-12 R        FALSE        
+    ## 1   10000032 2150-10-12 S        FALSE        
     ## 2   10000280 2150-10-12 R        FALSE        
-    ## 3   10000280 2151-03-17 S        TRUE         
-    ## 4   10000280 2151-12-08 S        TRUE         
-    ## 5   10000826 2187-09-26 S        FALSE        
-    ## 6   10000826 2188-07-01 R        FALSE
+    ## 3   10000280 2151-12-08 S        TRUE         
+    ## 4   10000280 2152-03-17 S        TRUE         
+    ## 5   10000826 2187-09-26 R        FALSE        
+    ## 6   10000826 2188-07-01 R        TRUE
