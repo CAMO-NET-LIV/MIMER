@@ -38,7 +38,7 @@ add_new_synonyms <- function(amr_df, new_synonyms){
 }
 
 get_antibiotics_in_medications <- function (df_medications_cleaned,df_amr_antibiotics_lookup,fuzzy_matching_method){
- df_antibiotics_in_df <- fuzzyjoin::stringdist_inner_join(
+  df_antibiotics_in_df <- fuzzyjoin::stringdist_inner_join(
     df_medications_cleaned,
     df_amr_antibiotics_lookup,
     by = c("medication_cleaned" = "synonyms"),

@@ -4,12 +4,14 @@ output: github_document
 
 **This is utility to clean antiobiotics data by leveraging AMR Package.**
 
-## Usage
+## Usages
 
 amrabxlookup::clean_antibiotics(
   x ,
   ... 
 )
+
+amrabxlookup::add_previous_resistance(df, cols, sort_by_col, patient_id_col, event_r_value="R", new_col_prefix="pr_R_")
 
 
 # amrabxlookup
@@ -17,7 +19,7 @@ amrabxlookup::clean_antibiotics(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of amrabxlookup is to find matching antibiotics in AMR dataset.
+The goal of amrabxlookup is to find matching antibiotics in AMR dataset and some other additinal useful utility functions.
 
 
 ## Installation
@@ -36,7 +38,7 @@ pak::pak("CAMO-NET-LIV/amrabxlookup")
 
 ```
 
-## Example
+## Examples
 
 This is a basic example which shows you how to solve a common problem:
 
@@ -54,3 +56,16 @@ library(amrabxlookup)
 df <- data.frame(drug = c("Amoxicilln","moxicillin","Paracetamol") )
 amrabxlookup::clean_antibiotics(df, drug_col = drug)
 ```
+
+
+
+```{r example3}
+library(amrabxlookup)
+## basic example code
+df <- data.frame(subject_id = c(10000032,10000280,10000280,10000280,10000826,10000826),
+      chartdate = c('2150-10-12','2150-10-12','2151-03-17','2151-12-08','2187-09-26','2188-07-01'),AMIKACIN=c('R','R','S','S','S','R'))
+amrabxlookup::add_previous_resistance(df, cols="AMIKACIN", sort_by_col='chartdate',patient_id_col='subject_id', event_r_value='R')
+```
+
+
+
