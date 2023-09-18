@@ -173,7 +173,7 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
     group_by(!!sym(patient_id_col))
 
   i=0
-  print("Adding Resistance Column for ")
+  print("Checking Previous Events for ")
   for(col in cols){
     print(col)
     new_col = paste0(new_col_prefix,col)
@@ -183,7 +183,7 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
       add_prev_event_column({{col}},{{new_col}},event_indi_value, sort_by_col, patient_id_col, time_period_in_days, minimum_prev_events)
 
   }
-  print(paste("Total Antibiotics Column (Resistance) Added : ",i))
+  print(paste("Total Antibiotics Column (Events) Added : ",i))
 
   return(df)
 }
