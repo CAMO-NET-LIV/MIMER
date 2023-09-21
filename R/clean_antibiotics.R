@@ -54,14 +54,16 @@ clean_antibiotics <- function(x, ...) {
 
 
 #' @export
-clean_antibiotics.character <- function(x, ...) {
+clean_antibiotics.character <- function(x, custom_synonyms = NULL, ...) {
   temp_df <- data.frame(drug = x)
-  clean_temp_df <- clean_antibiotics(temp_df, drug_col = drug)
+  clean_temp_df <- clean_antibiotics(temp_df, drug_col = drug, custom_synonyms = custom_synonyms)
   return(clean_temp_df$abx_name)
 }
 
 #' @export
-clean_antibiotics.data.frame <- function(x, drug_col,fuzzy_matching_method = "osa", ...) {
+clean_antibiotics.data.frame <- function(x, drug_col,
+                                         fuzzy_matching_method = "osa",
+                                         custom_synonyms = NULL, ...) {
 
   stopifnot(nargs()[[1]] >= 2)
 
@@ -73,12 +75,16 @@ clean_antibiotics.data.frame <- function(x, drug_col,fuzzy_matching_method = "os
   #Creating a antibiotics-lookup table
   df_amr_antibiotics_lookup <- populate_amr_antibiotics()
 
+  hard_coded_custom_rules <- c("Trimethoprim/sulfamethoxazole" = "Sulfameth/Trimethoprim",
+                               "Piperacillin/tazobactam" = "Piperacillin/tazo",
+                               "Amoxicillin/clavulanic acid"="Amoxicillin-Clavulanate",
+                               "Trimethoprim/sulfamethoxazole" = "Sulfamethoxazole-Trimethoprim")
+  combined_custom_rules <- c(hard_coded_custom_rules, custom_synonyms)
+
   #Add extra synonyms to Antibiotics lookup
-  df_amr_antibiotics_lookup_final <- add_new_synonyms(df_amr_antibiotics_lookup,new_synonyms =
-                                                        c("Trimethoprim/sulfamethoxazole" = "Sulfameth/Trimethoprim",
-                                                          "Piperacillin/tazobactam" = "Piperacillin/tazo",
-                                                          "Amoxicillin/clavulanic acid"="Amoxicillin-Clavulanate",
-                                                          "Trimethoprim/sulfamethoxazole" = "Sulfamethoxazole-Trimethoprim"))
+  df_amr_antibiotics_lookup_final <- add_new_synonyms(df_amr_antibiotics_lookup,
+                                                      new_synonyms = combined_custom_rules)
+
   medications_cleaned <- clean_medication(x, {{drug_col}})
 
   #Fuzzy Matching with AMR DataSet & Identifying AntiBiotics###########
