@@ -3,7 +3,7 @@
 \name{check_previous_events}
 \alias{check_previous_events}
 \alias{add_events}
-\title{Add a column and check any previous resistance identified for a particular antibiotic}
+\title{Add a column and check any previous events identified for a particular antibiotic}
 \usage{
 check_previous_events(df, cols, sort_by_col, patient_id_col,
  event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days=30, minimum_prev_events=3 )
@@ -29,7 +29,7 @@ check_previous_events(df, cols, sort_by_col, patient_id_col,
 Data Frame
 }
 \description{
-This function helps to check any previous resistance identified or not (TRUE/FALSE)
+This function helps to check any previous events identified or not (TRUE/FALSE)
 }
 \examples{
 

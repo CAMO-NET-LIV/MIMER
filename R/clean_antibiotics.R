@@ -74,7 +74,10 @@ clean_antibiotics.data.frame <- function(x, drug_col,fuzzy_matching_method = "os
   df_amr_antibiotics_lookup <- populate_amr_antibiotics()
 
   #Add extra synonyms to Antibiotics lookup
-  df_amr_antibiotics_lookup_final <- add_new_synonyms(df_amr_antibiotics_lookup, c("Amoxicillin-Clavulanate","Piperacillin/tazo"))
+  df_amr_antibiotics_lookup_final <- add_new_synonyms(df_amr_antibiotics_lookup,new_synonyms =
+                                                        c("Trimethoprim/sulfamethoxazole" = "Sulfameth/Trimethoprim DS",
+                                                          "Piperacillin/tazobactam" = "Piperacillin/tazo",
+                                                          "Amoxicillin/clavulanic acid"="Amoxicillin-Clavulanate"))
   medications_cleaned <- clean_medication(x, {{drug_col}})
 
   #Fuzzy Matching with AMR DataSet & Identifying AntiBiotics###########

@@ -31,8 +31,8 @@ populate_amr_antibiotics <- function(){
 
 
 add_new_synonyms <- function(amr_df, new_synonyms){
-  new_df <- data.frame(name  = new_synonyms,
-                       synonyms = new_synonyms)
+  new_df <- data.frame(name  = names(new_synonyms),
+                       synonyms = unname(new_synonyms))
 
   rbind(amr_df,new_df)
 }
