@@ -40,7 +40,7 @@ library(dplyr)
 #'
 #' @return Data Frame
 
-#' @export
+## #' @export
 duplicated_microbioevents_records <- function(df, key_columns= c('subject_id','micro_specimen_id','isolate_num','org_name','ab_itemid')){
   df %>%
     group_by_at(key_columns) %>%
@@ -71,7 +71,7 @@ transpose_microbioevents <- function(raw_df, key_columns= c('subject_id','micro_
 
 }
 
-#' @export
+## #' @export
 transpose_data <-function(raw_df, key_columns, required_columns, transpose_key_column, transpose_value_column, fill = "NA" ){
   transpose_microbioevents(raw_df, key_columns, required_columns, transpose_key_column, transpose_value_column, fill)
 }
