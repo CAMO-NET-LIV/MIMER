@@ -6,7 +6,7 @@ test_that("Check Transpose Functionality", {
                           interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
 
   test_df <- test_data %>% transpose_microbioevents(key_columns = c('subject_id','chartdate','ab_name') , required_columns =c('subject_id','chartdate'), transpose_key_column = 'ab_name',
-                                                    transpose_value_column = 'interpretation', fill = "N/A")
+                                                    transpose_value_column = 'interpretation', fill = "N/A", non_empty_filter_column ='subject_id')
 
 
   expected_df <- data.frame(subject_id=c('10016742','10016742','10016742','10038332','10038332','10038332','10038332'),

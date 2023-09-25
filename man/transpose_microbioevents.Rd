@@ -6,7 +6,7 @@
 \title{Transpose microbiology events dataset}
 \usage{
 transpose_microbioevents(raw_df, key_columns,
- required_columns, transpose_key_column, transpose_value_column, fill="NA", remove_duplicates=TRUE)
+ required_columns, transpose_key_column, transpose_value_column, fill="NA", non_empty_filter_column, remove_duplicates=TRUE)
 }
 \arguments{
 \item{key_columns}{(Optional) Primary Key/ Key columns for duplicate check
@@ -26,6 +26,8 @@ transpose_microbioevents(raw_df, key_columns,
 
 \item{fill}{(optional) Fill character for empty columns- Default : "NA"}
 
+\item{non_empty_filter_column}{(optional) Fiter input dataframe where 'non_empty_filter_column' is not empty/ or NA. Default :'ab_itemid'}
+
 \item{remove_duplicates}{(optional) Default :TRUE}
 }
 \value{
@@ -44,6 +46,6 @@ ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZID
 interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
 
 transpose_microbioevents(test_data, key_columns = c('subject_id','chartdate','ab_name') , required_columns =c('subject_id','chartdate'), transpose_key_column = 'ab_name',
-                                                   transpose_value_column = 'interpretation', fill = "N/A")
+                                                   transpose_value_column = 'interpretation', fill = "N/A", non_empty_filter_column='subject_id')
 
 }
