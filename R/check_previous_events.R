@@ -17,7 +17,7 @@ library(anytime)
 #' @description
 #'  This function helps to check any previous events identified or not (TRUE/FALSE)
 #' @usage check_previous_events(df, cols, sort_by_col, patient_id_col,
-#'  event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days=30, minimum_prev_events=3 )
+#'  event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days, minimum_prev_events )
 #' @param df A data frame containing microbiology events
 #' @param cols Columns for each antibiotics which contains events
 #' @param sort_by_col A date column to order the input data frame

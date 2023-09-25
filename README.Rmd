@@ -6,30 +6,45 @@ output: github_document
 
 ## Usages
 
-    amrabxlookup::clean_antibiotics(
-      x ,
-     ... 
-      )
+```         
+amrabxlookup::clean_antibiotics(
+  x ,
+ ... 
+  )
 
-    amrabxlookup::check_previous_events(df, cols, sort_by_col, patient_id_col, event_indi_value="R", new_col_prefix="pr_event_", 
-                                    time_period_in_days = 0, minimum_prev_events = 0)
+amrabxlookup::check_previous_events(df, cols, sort_by_col, patient_id_col,
+                                event_indi_value="R", new_col_prefix="pr_event_", 
+                                time_period_in_days = 0, minimum_prev_events = 0)
+  
+
+amrabxlookup::transpose_microbioevents(df, key_columns, required_columns, transpose_key_column,
+                                      transpose_value_column, fill = "N/A")                              
+                                
+```
 
 <!-- df   A data frame containing microbiology events -->
+
 <!-- cols  Columns for each antibiotics which contains events -->
+
 <!-- sort_by_col  A date column to order the input data frame -->
+
 <!-- patient_id_col  Patient Id Column -->
+
 <!-- event_indi_value (optional)  Event value indicating Resistance (Default 'R' ) -->
+
 <!-- new_col_prefix (optional)   Custom Prefix for new column(Default 'pr_event_' ) -->
+
 <!-- time_period_in_days (optional)  Values to check any  previous events in last 'n' days or not -->
+
 <!-- minimum_prev_events (optional)  Values to check any 'n' number of previous events happened or not -->
 
 # amrabxlookup
 
 <!-- badges: start -->
+
 <!-- badges: end -->
 
 The goal of amrabxlookup is to find matching antibiotics in AMR dataset and some other additinal useful utility functions.
-
 
 ## Installation
 
@@ -44,7 +59,6 @@ or
 install.packages("pak")
 pak::pak("CAMO-NET-LIV/amrabxlookup")
 
-
 ```
 
 ## Examples
@@ -58,15 +72,12 @@ amrabxlookup::clean_antibiotics(c("Amoxicilli"))
 
 ```
 
-
 ```{r example2}
 library(amrabxlookup)
 ## basic example code
 df <- data.frame(drug = c("Amoxicilln","moxicillin","Paracetamol") )
 amrabxlookup::clean_antibiotics(df, drug_col = drug)
 ```
-
-
 
 ```{r example3}
 library(amrabxlookup)
@@ -78,7 +89,6 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
     amrabxlookup::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', event_indi_value='R')
 ```
 
-
 ```{r example4}
 ## example with 'minimum_prev_events' parameter
  df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332','10038332','10038332','10038332','10038332'),
@@ -88,7 +98,6 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
   amrabxlookup::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', minimum_prev_events = 2)
 
 ```
-
 
 ```{r example5}
 ## example with 'time_period_in_days' parameter
@@ -100,8 +109,6 @@ amrabxlookup::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = '
 
 
 ```
-
-
 
 ```{r example6}
 ## example with 'time_period_in_days' & 'minimum_prev_events' parameters
@@ -115,5 +122,13 @@ amrabxlookup::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'cha
 
 ```
 
+```{r example7}
+##example for transpose_microbioevents
+test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332','10038332','10038332','10038332','10038332'),
+                          chartdate= c('2178-07-03','2178-08-01','2178-08-01','2178-08-01','2178-09-25','2164-07-31','2164-12-22','2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
+                          ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME'),
+                          interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
 
-
+amrabxlookup::transpose_microbioevents(test_data, key_columns = c('subject_id','chartdate','ab_name') , required_columns =c('subject_id','chartdate'), transpose_key_column = 'ab_name',
+                                                    transpose_value_column = 'interpretation', fill = "N/A")
+```

@@ -16,4 +16,5 @@ Imports:
     rlang,
     stringr,
     tidyr,
-    anytime
+    anytime,
+    reshape2

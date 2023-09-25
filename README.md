@@ -9,8 +9,14 @@ Package, with some additional useful functions.**
      ... 
       )
 
-    amrabxlookup::check_previous_events(df, cols, sort_by_col, patient_id_col, event_indi_value="R", new_col_prefix="pr_event_", 
+    amrabxlookup::check_previous_events(df, cols, sort_by_col, patient_id_col,
+                                    event_indi_value="R", new_col_prefix="pr_event_", 
                                     time_period_in_days = 0, minimum_prev_events = 0)
+      
+
+    amrabxlookup::transpose_microbioevents(df, key_columns, required_columns, transpose_key_column,
+                                          transpose_value_column, fill = "N/A")                              
+                                    
 
 <!-- df   A data frame containing microbiology events -->
 <!-- cols  Columns for each antibiotics which contains events -->
@@ -42,7 +48,6 @@ or
 
 install.packages("pak")
 pak::pak("CAMO-NET-LIV/amrabxlookup")
-
 ```
 
 ## Examples
@@ -79,9 +84,9 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
     amrabxlookup::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', event_indi_value='R')
 ```
 
-    ## [1] "Adding Resistance Column for "
+    ## [1] "Checking Previous Events for "
     ## [1] "CEFTAZIDIME"
-    ## [1] "Total Antibiotics Column (Resistance) Added :  1"
+    ## [1] "Total Antibiotics Column (Events) Added :  1"
 
     ## # A tibble: 11 × 5
     ## # Groups:   subject_id [2]
@@ -108,9 +113,9 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
   amrabxlookup::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', minimum_prev_events = 2)
 ```
 
-    ## [1] "Adding Resistance Column for "
+    ## [1] "Checking Previous Events for "
     ## [1] "CEFEPIME"
-    ## [1] "Total Antibiotics Column (Resistance) Added :  1"
+    ## [1] "Total Antibiotics Column (Events) Added :  1"
 
     ## # A tibble: 11 × 5
     ## # Groups:   subject_id [2]
@@ -137,9 +142,9 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
 amrabxlookup::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', time_period_in_days = 25)
 ```
 
-    ## [1] "Adding Resistance Column for "
+    ## [1] "Checking Previous Events for "
     ## [1] "CEFTAZIDIME"
-    ## [1] "Total Antibiotics Column (Resistance) Added :  1"
+    ## [1] "Total Antibiotics Column (Events) Added :  1"
 
     ## # A tibble: 11 × 5
     ## # Groups:   subject_id [2]
@@ -167,9 +172,9 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
 amrabxlookup::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', time_period_in_days = 62, minimum_prev_events = 2)
 ```
 
-    ## [1] "Adding Resistance Column for "
+    ## [1] "Checking Previous Events for "
     ## [1] "CEFEPIME"
-    ## [1] "Total Antibiotics Column (Resistance) Added :  1"
+    ## [1] "Total Antibiotics Column (Events) Added :  1"
 
     ## # A tibble: 11 × 5
     ## # Groups:   subject_id [2]
@@ -186,3 +191,23 @@ amrabxlookup::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'cha
     ##  9 10016742   2178-08-01 R        S           FALSE            
     ## 10 10016742   2178-08-01 R        R           FALSE            
     ## 11 10016742   2178-09-25 S        R           TRUE
+
+``` r
+##example for transpose_microbioevents
+test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332','10038332','10038332','10038332','10038332'),
+                          chartdate= c('2178-07-03','2178-08-01','2178-08-01','2178-08-01','2178-09-25','2164-07-31','2164-12-22','2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
+                          ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME'),
+                          interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
+
+amrabxlookup::transpose_microbioevents(test_data, key_columns = c('subject_id','chartdate','ab_name') , required_columns =c('subject_id','chartdate'), transpose_key_column = 'ab_name',
+                                                    transpose_value_column = 'interpretation', fill = "N/A")
+```
+
+    ##   subject_id  chartdate CEFEPIME CEFTAZIDIME
+    ## 1   10016742 2178-07-03        S         N/A
+    ## 2   10016742 2178-08-01      N/A           R
+    ## 3   10016742 2178-09-25      N/A           R
+    ## 4   10038332 2164-07-31      N/A           S
+    ## 5   10038332 2165-01-07      N/A           R
+    ## 6   10038332 2165-04-17      N/A           R
+    ## 7   10038332 2165-05-05        S         N/A
