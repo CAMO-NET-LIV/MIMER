@@ -10,7 +10,7 @@ library(dplyr)
 #' @name transpose_microbioevents
 #' @title Transpose microbiology events dataset
 #' @description
-#'  This function helps to transpose (rows to columns) microbiology events (use transpose_data() for other dataset)
+#'  This function helps to transpose (rows to columns) microbiology events.
 #' @usage  transpose_microbioevents(raw_df, key_columns,
 #'  required_columns, transpose_key_column, transpose_value_column, fill="NA", non_empty_filter_column, remove_duplicates=TRUE)
 #' @param raw_df A data frame containing microbiology events
@@ -19,17 +19,14 @@ library(dplyr)
 #' @param required_columns (Optional) columns should contain in final dataset
 #'                : Default Value c('subject_id','hadm_id','micro_specimen_id','order_provider_id','chartdate','charttime','spec_itemid',
 #'                  'spec_type_desc','storedate','storetime','test_itemid','test_name','org_itemid','isolate_num','org_name')
-#' @param transpose_key_column (Optional) The column that should be transposed (distinct values of that column will become seperate columns)
+#' @param transpose_key_column (Optional) The column that should be transposed (distinct values of that column will become separate columns)
 #'                :Default 'ab_name'
 #' @param transpose_value_column (optional) Values of 'transpose_key_column' column
 #'                 :Default 'interpretation'
 #' @param fill (optional) Fill character for empty columns- Default : "NA"
-#' @param non_empty_filter_column (optional) Fiter input dataframe where 'non_empty_filter_column' is not empty/ or NA. Default :'ab_itemid'
+#' @param non_empty_filter_column (optional) Filter input dataframe where 'non_empty_filter_column' is not empty or na. Default :'ab_itemid'
 #' @param remove_duplicates (optional) Default :TRUE
-
-
 #'
-#' @return Data Frame
 #' @examples
 #'
 #'test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332','10038332','10038332','10038332','10038332'),
