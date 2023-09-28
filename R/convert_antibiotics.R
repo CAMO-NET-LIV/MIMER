@@ -1,7 +1,9 @@
+library(data.table)
+
 product <- read.csv("databases/ndcxls/product.csv")
 package <- read.csv("databases/ndcxls/package.csv")
 
-mimic_prescriptions_path <- ""
+mimic_prescriptions_path <- "~/data/mimiciv/2.2/hosp/prescriptions.csv.gz"
 
 ndc_get_format <- function(s) {
   ifelse(nchar(s[[3]]) == 1,
@@ -49,11 +51,50 @@ package$NDC_11 <- convert_ndc_10_to_11(package$NDCPACKAGECODE)
 combined_key <- package[,c("PRODUCTNDC", "NDC_11", "NDCPACKAGECODE")]
 combined_key <- merge(combined_key, product, by = "PRODUCTNDC",
                       all.x = TRUE)
+combined_key <- combined_key[!duplicated(combined_key$NDC_11),]
+combined_key <- data.table(combined_key)
 
 data <- data.table::fread(mimic_prescriptions_path,
                           colClasses = c(ndc = "character"))
+setnames(data, "ndc", "NDC_11")
 names(data)[names(data) == "ndc"] <- "NDC_11"
 
-data2 <- merge(data, combined_key[c("NDC_11", "NONPROPRIETARYNAME")],
-               by = "NDC_11", all.x = TRUE,
-               allow.cartesian = TRUE)
+data2 <- merge(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
+
+
+# all classes in NDC
+classes <- strsplit(paste(combined_key$PHARM_CLASSES, collapse = ","), ",")
+classes <- unlist(classes)
+classes <- subset(classes, grepl("anti", classes, ignore.case = TRUE))
+classes <- unique(classes)
+classes <- sort(classes)
+all_relevant_classes <- c("antimicrobial",
+                          "antibacterial",
+                          "antifungal",
+                          "antiviral",
+                          "antimalarial",
+                          "antiprotozoal")
+antibacterial_classes <- c("antimicrobial",
+                           "antibacterial")
+relevant_routes_administration <- c("PO/NG",
+                                    "IV",
+                                    "NG",
+                                    "IM",
+                                    "IV DRIP",
+                                    "PR",
+                                    "ORAL",
+                                    "IVPCA",
+                                    "IV BOLUS",
+                                    "DIALYS")
+
+# keep antibiotics only
+data2 <- subset(data2, grepl(paste(antibacterial_classes, collapse = "|"),
+                             data2$PHARM_CLASSES,
+                             ignore.case=TRUE))
+
+# keep only systemic routs
+data2 <- subset(data2, grepl(paste(relevant_routes_administration, collapse = "|"),
+                             data2$route,
+                             ignore.case=TRUE))
+
+AMR::as.ab(data2$SUBSTANCENAME)
