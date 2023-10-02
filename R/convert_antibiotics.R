@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # library(data.table)
 #
 # product <- read.csv("databases/ndcxls/product.csv")
