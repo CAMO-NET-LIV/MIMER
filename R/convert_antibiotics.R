@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # library(data.table)
 #
 # product <- read.csv("databases/ndcxls/product.csv")
@@ -87,6 +88,13 @@
 #                                     "IV BOLUS",
 #                                     "DIALYS")
 #
+# abx names added
+# data2$abx_names <- ifelse(grepl(paste(antibacterial_classes, collapse = "|"),
+#                                 data2$PHARM_CLASSES,
+#                                 ignore.case=TRUE),
+#                           AMR::as.ab(data2$SUBSTANCENAME),
+#                           NA)
+#
 # # keep antibiotics only
 # data2 <- subset(data2, grepl(paste(antibacterial_classes, collapse = "|"),
 #                              data2$PHARM_CLASSES,
@@ -97,4 +105,13 @@
 #                              data2$route,
 #                              ignore.case=TRUE))
 #
-# AMR::as.ab(data2$SUBSTANCENAME)
+
+# functions needed
+# ndc_to_antimicrobial <- function(x, class_names) {return("Antibiotic name")}
+# class names has default of antibacterial classes above
+
+# ndc_is_antimicrobial <- function(x, class_names) {return(TRUE)}
+
+# is_systemic_route <- function(x, routes) {return(TRUE)}
+# x = route vector
+# routes = default relevant_routes_administration from above
