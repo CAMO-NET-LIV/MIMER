@@ -187,7 +187,7 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
     new_col = paste0(new_col_prefix,col)
     i=i+1
 
-
+    #Bug fix to handle NA values
     df <- df %>% mutate({{col}} := ifelse(is.na(!!sym(col)),'NA',as.character(!!sym(col))) )
 
     df <- df %>%
