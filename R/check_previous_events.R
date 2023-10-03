@@ -26,6 +26,8 @@ library(anytime)
 #' @param new_col_prefix (optional) Custom Prefix for new column(Default 'pr_event_' )
 #' @param time_period_in_days (optional) to check any  previous events in last 'n' days or not
 #' @param minimum_prev_events (optional) to check any 'n' number of previous events happened or not
+#' @param default_na_date (optional) replacement date string for NA values in sort_by_col eg: '9999-12-31 00:00:00'
+
 
 #'
 #' @return Data Frame
@@ -166,11 +168,17 @@ add_prev_event_column <- function(data, col, new_col, event_indi_value, sort_by_
 }
 
 #' @export
-check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_value='R', new_col_prefix="pr_event_", time_period_in_days=0, minimum_prev_events=0) {
+check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_value='R', new_col_prefix="pr_event_",
+                                 time_period_in_days=0, minimum_prev_events=0, default_na_date='9999-12-31 00:00:00') {
+
 
   df <- df %>%
     arrange(!!sym(sort_by_col), !!sym(patient_id_col)) %>%
     group_by(!!sym(patient_id_col))
+
+  #Bug fix to handle NA values
+  stopifnot(!is.na(as.POSIXct(default_na_date,format='%Y-%m-%d %H:%M:%S')) | !is.na(as.POSIXct(default_na_date,format='%Y-%m-%d')) )
+  df <- df %>% mutate({{sort_by_col}} := ifelse(is.na(!!sym(sort_by_col)),as.character(default_na_date),as.character(!!sym(sort_by_col))) )
 
   i=0
   print("Checking Previous Events for ")

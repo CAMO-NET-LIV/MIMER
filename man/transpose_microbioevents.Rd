@@ -18,7 +18,7 @@ transpose_microbioevents(raw_df, key_columns,
 : Default Value c('subject_id','hadm_id','micro_specimen_id','order_provider_id','chartdate','charttime','spec_itemid',
 'spec_type_desc','storedate','storetime','test_itemid','test_name','org_itemid','isolate_num','org_name')}
 
-\item{transpose_key_column}{(Optional) The column that should be transposed (distinct values of that column will become seperate columns)
+\item{transpose_key_column}{(Optional) The column that should be transposed (distinct values of that column will become separate columns)
 :Default 'ab_name'}
 
 \item{transpose_value_column}{(optional) Values of 'transpose_key_column' column
@@ -26,17 +26,15 @@ transpose_microbioevents(raw_df, key_columns,
 
 \item{fill}{(optional) Fill character for empty columns- Default : "NA"}
 
-\item{non_empty_filter_column}{(optional) Fiter input dataframe where 'non_empty_filter_column' is not empty/ or NA. Default :'ab_itemid'}
+\item{non_empty_filter_column}{(optional) Filter input dataframe where 'non_empty_filter_column' is not empty or na. Default :'ab_itemid'}
 
 \item{remove_duplicates}{(optional) Default :TRUE}
 }
 \value{
 Data Frame
-
-Data Frame
 }
 \description{
-This function helps to transpose (rows to columns) microbiology events (use transpose_data() for other dataset)
+This function helps to transpose (rows to columns) microbiology events.
 }
 \examples{
 
