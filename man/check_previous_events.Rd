@@ -24,6 +24,8 @@ check_previous_events(df, cols, sort_by_col, patient_id_col,
 \item{time_period_in_days}{(optional) to check any  previous events in last 'n' days or not}
 
 \item{minimum_prev_events}{(optional) to check any 'n' number of previous events happened or not}
+
+\item{default_na_date}{(optional) replacement date string for NA values in sort_by_col eg: '9999-12-31 00:00:00'}
 }
 \value{
 Data Frame
