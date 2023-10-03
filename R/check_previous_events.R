@@ -187,6 +187,9 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
     new_col = paste0(new_col_prefix,col)
     i=i+1
 
+
+    df <- df %>% mutate({{col}} := ifelse(is.na(!!sym(col)),'NA',as.character(!!sym(col))) )
+
     df <- df %>%
       add_prev_event_column({{col}},{{new_col}},event_indi_value, sort_by_col, patient_id_col, time_period_in_days, minimum_prev_events)
 
