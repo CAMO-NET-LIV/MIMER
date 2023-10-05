@@ -1,13 +1,19 @@
 
-**This library mainly for cleaning antiobiotics data by leveraging AMR
-Package, with some additional useful functions.**
+# amrabxlookup
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The goal of amrabxlookup is to provide various utility functions to
+process MIMIC dataset to support various data science projects.
 
 ## Usages
 
-    amrabxlookup::clean_antibiotics(
-      x ,
-     ... 
-      )
+    amrabxlookup::ndc_to_antimicrobial(ndc, class)   
+
+    amrabxlookup::ndc_is_antimicrobial(ndc, class)  
+
+    amrabxlookup::is_systemic_route(route, class)  
 
     amrabxlookup::check_previous_events(df, cols, sort_by_col, patient_id_col,
                                     event_indi_value="R", new_col_prefix="pr_event_", 
@@ -15,25 +21,13 @@ Package, with some additional useful functions.**
       
 
     amrabxlookup::transpose_microbioevents(df, key_columns, required_columns, transpose_key_column,
-                                          transpose_value_column, fill = "N/A")                              
-                                    
-
-<!-- df   A data frame containing microbiology events -->
-<!-- cols  Columns for each antibiotics which contains events -->
-<!-- sort_by_col  A date column to order the input data frame -->
-<!-- patient_id_col  Patient Id Column -->
-<!-- event_indi_value (optional)  Event value indicating Resistance (Default 'R' ) -->
-<!-- new_col_prefix (optional)   Custom Prefix for new column(Default 'pr_event_' ) -->
-<!-- time_period_in_days (optional)  Values to check any  previous events in last 'n' days or not -->
-<!-- minimum_prev_events (optional)  Values to check any 'n' number of previous events happened or not -->
-
-# amrabxlookup
-
-<!-- badges: start -->
-<!-- badges: end -->
-
-The goal of amrabxlookup is to find matching antibiotics in AMR dataset
-and some other additinal useful utility functions.
+                                          transpose_value_column, fill = "N/A")  
+                                          
+    #not recommended to use                                      
+    amrabxlookup::clean_antibiotics(
+      x ,
+     ... 
+      )
 
 ## Installation
 
@@ -57,22 +51,26 @@ This is a basic example which shows you how to solve a common problem:
 ``` r
 library(amrabxlookup)
 ## basic example code
-amrabxlookup::clean_antibiotics(c("Amoxicilli"))
+amrabxlookup::ndc_to_antimicrobial(ndc='65649030303', class='antibacterial')
 ```
 
-    ## [1] "Amoxicillin"
+    ## [1] "RFX"
 
 ``` r
 library(amrabxlookup)
 ## basic example code
-df <- data.frame(drug = c("Amoxicilln","moxicillin","Paracetamol") )
-amrabxlookup::clean_antibiotics(df, drug_col = drug)
+amrabxlookup::ndc_is_antimicrobial(ndc='65649030303')
 ```
 
-    ##          drug    abx_name    synonyms is_abx
-    ## 1  Amoxicilln Amoxicillin Amoxicillin   TRUE
-    ## 2  moxicillin Amoxicillin Amoxicillin   TRUE
-    ## 3 Paracetamol        <NA>        <NA>  FALSE
+    ## [1] TRUE
+
+``` r
+library(amrabxlookup)
+## basic example code
+amrabxlookup::is_systemic_route(route='PO/NG')
+```
+
+    ## [1] TRUE
 
 ``` r
 library(amrabxlookup)
@@ -211,3 +209,19 @@ amrabxlookup::transpose_microbioevents(test_data, key_columns = c('subject_id','
     ## 5   10038332 2165-01-07      N/A           R
     ## 6   10038332 2165-04-17      N/A           R
     ## 7   10038332 2165-05-05        S         N/A
+
+``` r
+library(amrabxlookup)
+## basic example code
+amrabxlookup::clean_antibiotics(c("Amoxicilli"))
+```
+
+    ## [1] "Amoxicillin"
+
+``` r
+library(amrabxlookup)
+## basic example code
+amrabxlookup::clean_antibiotics(c("Amoxicilli"))
+```
+
+    ## [1] "Amoxicillin"
