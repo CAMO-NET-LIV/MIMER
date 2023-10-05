@@ -1,5 +1,7 @@
 library(data.table)
 
+#' @importFrom data.table data.table
+
 product <- read.csv("databases/ndcxls/product.csv")
 package <- read.csv("databases/ndcxls/package.csv")
 
@@ -86,7 +88,7 @@ load_combined_key <- function(full_load = FALSE){
 
     }else{
       tryCatch({
-        combined_key <- data.table(read.csv(combined_key_path))
+        combined_key <- data.table(read.csv(combined_key_path,header = TRUE))
       }, error = function(e) {
          print("File is not loaded. Please try with full_load=TRUE parameter")
       })
@@ -112,7 +114,6 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_
   data <- data.frame(ndc=ndc)
   data.table::setnames(data, "ndc", "NDC_11")
   names(data)[names(data) == "ndc"] <- "NDC_11"
-
   data2 <- merge(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
   abx_name <- ifelse(grepl(paste(class_names, collapse = "|"),
                                   data2$PHARM_CLASSES,
