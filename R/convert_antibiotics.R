@@ -1,116 +1,183 @@
-# library(data.table)
-#
-# product <- read.csv("databases/ndcxls/product.csv")
-# package <- read.csv("databases/ndcxls/package.csv")
+library(data.table)
+
+product <- read.csv("databases/ndcxls/product.csv")
+package <- read.csv("databases/ndcxls/package.csv")
+
+combined_key_path <- "databases/combined_key/combined_key.csv"
+
+all_relevant_classes <- c("antimicrobial",
+                          "antibacterial",
+                          "antifungal",
+                          "antiviral",
+                          "antimalarial",
+                          "antiprotozoal")
+
+antibacterial_classes <- c("antimicrobial",
+                           "antibacterial")
+
+relevant_routes_administration <- c("PO/NG",
+                                    "IV",
+                                    "NG",
+                                    "IM",
+                                    "IV DRIP",
+                                    "PR",
+                                    "ORAL",
+                                    "IVPCA",
+                                    "IV BOLUS",
+                                    "DIALYS")
+
+ndc_get_format <- function(s) {
+  ifelse(nchar(s[[3]]) == 1,
+         "541",
+         ifelse(nchar(s[[2]]) == 3,
+                "532",
+                "442"))
+}
+
+convert_split_ndc <- function(split_code, format) {
+  if (format == "541") {
+    part1 <- split_code[[1]]
+    part2 <- split_code[[2]]
+    part3 <- paste0("0", split_code[[3]])
+    return(paste0(part1, part2, part3, collapse = ""))
+  }
+
+  if (format == "442") {
+    part1 <- paste0("0", split_code[[1]])
+    part2 <- split_code[[2]]
+    part3 <- split_code[[3]]
+    return(paste0(part1, part2, part3, collapse = ""))
+  }
+
+  if (format == "532") {
+    part1 <- split_code[[1]]
+    part2 <- paste0("0", split_code[[2]])
+    part3 <- split_code[[3]]
+    return(paste0(part1, part2, part3, collapse = ""))
+  }
+}
+
+convert_ndc_10_to_11 <- function(code) {
+  split_code <- strsplit(code, "-")[[1]]
+  code_nchar <- nchar(paste(split_code, collapse = ""))
+  if (code_nchar != 10) return(NA)
+  format <- ndc_get_format(split_code)
+  return(convert_split_ndc(split_code, format))
+}
+
+write_to_file <- function (df, file_path){
+  write.table(df, file = file_path,row.names = FALSE,append= FALSE, sep = ",",col.names = TRUE)
+}
+
+load_combined_key <- function(full_load = FALSE){
+  combined_key=NULL
+  if(full_load){
+
+      convert_ndc_10_to_11 <- Vectorize(convert_ndc_10_to_11, USE.NAMES = F)
+
+      package$NDC_11 <- convert_ndc_10_to_11(package$NDCPACKAGECODE)
+
+      combined_key <- package[,c("PRODUCTNDC", "NDC_11", "NDCPACKAGECODE")]
+      combined_key <- merge(combined_key, product, by = "PRODUCTNDC",
+                            all.x = TRUE)
+      combined_key <- combined_key[!duplicated(combined_key$NDC_11),]
+      combined_key <- data.table(combined_key)
+      write_to_file(combined_key, combined_key_path)
+
+    }else{
+      tryCatch({
+        combined_key <- data.table(read.csv(combined_key_path))
+      }, error = function(e) {
+         print("File is not loaded. Please try with full_load=TRUE parameter")
+      })
+    }
+  return(combined_key)
+}
+
+
+#' ndc_to_antimicrobial
+#' @title Convert 'ndc' code to corresponding Antibiotic code.
+#' @description
+#'  Function to convert 'ndc' code to corresponding Antibiotic code.
+#' @usage ndc_to_antimicrobial(ndc, class_names, full_load=FALSE)
+#' @param ndc A vector containing ndc code.
+#' @param class_names A vector containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
+#' @param full_load Default:False, This is to load /refresh ndc code from new files if any.
+#' @return Vector
+#' @export
+ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_load=FALSE) {
+  #Combined Key
+  combined_key <- load_combined_key(full_load)
+
+  data <- data.frame(ndc=ndc)
+  data.table::setnames(data, "ndc", "NDC_11")
+  names(data)[names(data) == "ndc"] <- "NDC_11"
+
+  data2 <- merge(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
+  abx_name <- ifelse(grepl(paste(class_names, collapse = "|"),
+                                  data2$PHARM_CLASSES,
+                                  ignore.case=TRUE),
+                            AMR::as.ab(data2$SUBSTANCENAME),
+                            NA)
+  return(abx_name)
+}
+
+#' ndc_is_antimicrobial
+#' @title Check 'ndc' code is belongs to any Antimicrobial.
+#' @description
+#'  Function to check input 'ndc' code is belongs to any Antimicrobial or not.
+#' @usage ndc_is_antimicrobial(ndc, class_names, full_load=FALSE)
+#' @param ndc A vector containing ndc code.
+#' @param class_names A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
+#' @param full_load Default:False, This is to load /refresh ndc code from new files if any.
+#' @return Boolean
+#'
+#' @export
+ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_load=FALSE) {
+  #Combined Key
+  combined_key <- load_combined_key(full_load)
+
+  data <- data.frame(ndc=ndc)
+  data.table::setnames(data, "ndc", "NDC_11")
+  names(data)[names(data) == "ndc"] <- "NDC_11"
+
+  data2 <- merge(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
+  is_abx <-  grepl(paste(class_names, collapse = "|"),
+                     data2$PHARM_CLASSES,
+                     ignore.case=TRUE)
+  return(is_abx)
+}
+
+
+#' is_systemic_route
+#' @title Check 'route' is systemic or not
+#' @description
+#'  Function to check 'route' is Systemic or not.
+#' @usage is_systemic_route(route, class_names, full_load=FALSE)
+#' @param route A vector containing route code.
+#' @param class_names A vector containing relevant_routes_administration class - Eg: PO/NG
+#' @return Boolean
+#'
+#' @export
+is_systemic_route <- function(route, class_names = relevant_routes_administration) {
+
+  is_systemic_route <-  grepl(paste(class_names, collapse = "|"),
+                              route,
+                   ignore.case=TRUE)
+  return(is_systemic_route)
+}
+
+
 #
 # mimic_prescriptions_path <- "~/data/mimiciv/2.2/hosp/prescriptions.csv.gz"
 #
-# ndc_get_format <- function(s) {
-#   ifelse(nchar(s[[3]]) == 1,
-#          "541",
-#          ifelse(nchar(s[[2]]) == 3,
-#                 "532",
-#                 "442"))
-# }
-#
-# convert_split_ndc <- function(split_code, format) {
-#   if (format == "541") {
-#     part1 <- split_code[[1]]
-#     part2 <- split_code[[2]]
-#     part3 <- paste0("0", split_code[[3]])
-#     return(paste0(part1, part2, part3, collapse = ""))
-#   }
-#
-#   if (format == "442") {
-#     part1 <- paste0("0", split_code[[1]])
-#     part2 <- split_code[[2]]
-#     part3 <- split_code[[3]]
-#     return(paste0(part1, part2, part3, collapse = ""))
-#   }
-#
-#   if (format == "532") {
-#     part1 <- split_code[[1]]
-#     part2 <- paste0("0", split_code[[2]])
-#     part3 <- split_code[[3]]
-#     return(paste0(part1, part2, part3, collapse = ""))
-#   }
-# }
-#
-# convert_ndc_10_to_11 <- function(code) {
-#   split_code <- strsplit(code, "-")[[1]]
-#   code_nchar <- nchar(paste(split_code, collapse = ""))
-#   if (code_nchar != 10) return(NA)
-#   format <- ndc_get_format(split_code)
-#   return(convert_split_ndc(split_code, format))
-# }
-#
-# convert_ndc_10_to_11 <- Vectorize(convert_ndc_10_to_11, USE.NAMES = F)
-#
-# package$NDC_11 <- convert_ndc_10_to_11(package$NDCPACKAGECODE)
-#
-# combined_key <- package[,c("PRODUCTNDC", "NDC_11", "NDCPACKAGECODE")]
-# combined_key <- merge(combined_key, product, by = "PRODUCTNDC",
-#                       all.x = TRUE)
-# combined_key <- combined_key[!duplicated(combined_key$NDC_11),]
-# combined_key <- data.table(combined_key)
-#
 # data <- data.table::fread(mimic_prescriptions_path,
 #                           colClasses = c(ndc = "character"))
-# setnames(data, "ndc", "NDC_11")
-# names(data)[names(data) == "ndc"] <- "NDC_11"
 #
-# data2 <- merge(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
-#
-#
+
 # # all classes in NDC
 # classes <- strsplit(paste(combined_key$PHARM_CLASSES, collapse = ","), ",")
 # classes <- unlist(classes)
 # classes <- subset(classes, grepl("anti", classes, ignore.case = TRUE))
 # classes <- unique(classes)
 # classes <- sort(classes)
-# all_relevant_classes <- c("antimicrobial",
-#                           "antibacterial",
-#                           "antifungal",
-#                           "antiviral",
-#                           "antimalarial",
-#                           "antiprotozoal")
-# antibacterial_classes <- c("antimicrobial",
-#                            "antibacterial")
-# relevant_routes_administration <- c("PO/NG",
-#                                     "IV",
-#                                     "NG",
-#                                     "IM",
-#                                     "IV DRIP",
-#                                     "PR",
-#                                     "ORAL",
-#                                     "IVPCA",
-#                                     "IV BOLUS",
-#                                     "DIALYS")
-#
-# # abx names added
-# data2$abx_names <- ifelse(grepl(paste(antibacterial_classes, collapse = "|"),
-#                                 data2$PHARM_CLASSES,
-#                                 ignore.case=TRUE),
-#                           AMR::as.ab(data2$SUBSTANCENAME),
-#                           NA)
-#
-# # keep antibiotics only
-# data2 <- subset(data2, grepl(paste(antibacterial_classes, collapse = "|"),
-#                              data2$PHARM_CLASSES,
-#                              ignore.case=TRUE))
-#
-# # keep only systemic routs
-# data2 <- subset(data2, grepl(paste(relevant_routes_administration, collapse = "|"),
-#                              data2$route,
-#                              ignore.case=TRUE))
-#
-#
-# # functions needed
-# # ndc_to_antimicrobial <- function(x, class_names) {return("Antibiotic name")}
-# # class names has default of antibacterial classes above
-#
-# # ndc_is_antimicrobial <- function(x, class_names) {return(TRUE)}
-#
-# # is_systemic_route <- function(x, routes) {return(TRUE)}
-# # x = route vector
-# # routes = default relevant_routes_administration from above
