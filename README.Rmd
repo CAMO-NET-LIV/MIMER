@@ -139,7 +139,8 @@ amrabxlookup::clean_antibiotics(c("Amoxicilli"))
 ```{r example10}
 library(amrabxlookup)
 ## basic example code
-amrabxlookup::clean_antibiotics(c("Amoxicilli"))
+df <- data.frame(drug = c("Amoxicilln","moxicillin","Paracetamol") )
+amrabxlookup::clean_antibiotics(df, drug_col = drug)
 
 ```
 
