@@ -4,7 +4,7 @@
 \alias{is_systemic_route}
 \title{Check 'route' is systemic or not}
 \usage{
-is_systemic_route(route, class_names, full_load=FALSE)
+is_systemic_route(route, class_names, re_calculate_combined_key=FALSE)
 }
 \arguments{
 \item{route}{A vector containing route code.}

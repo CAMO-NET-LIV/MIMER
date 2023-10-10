@@ -4,14 +4,15 @@
 \alias{ndc_is_antimicrobial}
 \title{Check 'ndc' code is belongs to any Antimicrobial.}
 \usage{
-ndc_is_antimicrobial(ndc, class_names, full_load=FALSE)
+ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE)
 }
 \arguments{
 \item{ndc}{A vector containing ndc code.}
 
 \item{class_names}{A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")}
 
-\item{full_load}{Default:False, This is to load /refresh ndc code from new files if any.}
+\item{re_calculate_combined_key}{Default:False, This is to load ndc code from a internal package file or re-compute.
+re_calculate_combined_key = False means it will load keys from file otherwise re-compute}
 }
 \value{
 Boolean

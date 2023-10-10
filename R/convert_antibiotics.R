@@ -1,15 +1,13 @@
 library(data.table)
-library(here)
 
 #' @importFrom data.table data.table
 
-product_path <- here("databases/ndcxls", "product.csv")
-package_path <- here("databases/ndcxls", "package.csv")
-combined_key_path <- here("databases/combined_key", "combined_key.csv")
+getProductPath <- function() system.file("extdata/ndcxls", "product.csv", package = "amrabxlookup", mustWork = TRUE)
+getPackagePath <- function() system.file("extdata/ndcxls", "package.csv", package = "amrabxlookup", mustWork = TRUE)
+getCombinedkeyPath <- function() system.file("extdata", "combined_key.csv", package = "amrabxlookup", mustWork = TRUE)
 
-product <- read.csv(product_path)
-package <- read.csv(package_path)
-
+product <- read.csv(getProductPath())
+package <- read.csv(getPackagePath())
 
 all_relevant_classes <- c("antimicrobial",
                           "antibacterial",
@@ -75,9 +73,9 @@ write_to_file <- function (df, file_path){
   write.table(df, file = file_path,row.names = FALSE,append= FALSE, sep = ",",col.names = TRUE)
 }
 
-load_combined_key <- function(full_load = FALSE){
+load_combined_key <- function(re_calculate_combined_key = FALSE){
   combined_key=NULL
-  if(full_load){
+  if(re_calculate_combined_key){
 
       convert_ndc_10_to_11 <- Vectorize(convert_ndc_10_to_11, USE.NAMES = F)
 
@@ -88,13 +86,11 @@ load_combined_key <- function(full_load = FALSE){
                             all.x = TRUE)
       combined_key <- combined_key[!duplicated(combined_key$NDC_11),]
       combined_key <- data.table(combined_key)
-      write_to_file(combined_key, combined_key_path)
-
     }else{
       tryCatch({
-        combined_key <- data.table(read.csv(combined_key_path,header = TRUE))
+        combined_key <- data.table(read.csv(getCombinedkeyPath(),header = TRUE))
       }, error = function(e) {
-         print("File is not loaded. Please try with full_load=TRUE parameter")
+         print("File is not loaded. Please try with re_calculate_combined_key=TRUE parameter")
       })
     }
   return(combined_key)
@@ -105,16 +101,17 @@ load_combined_key <- function(full_load = FALSE){
 #' @title Convert 'ndc' code to corresponding Antibiotic code.
 #' @description
 #'  Function to convert 'ndc' code to corresponding Antibiotic code.
-#' @usage ndc_to_antimicrobial(ndc, class_name, full_load=FALSE)
+#' @usage ndc_to_antimicrobial(ndc, class_name, re_calculate_combined_key=FALSE)
 #' @param ndc A vector containing ndc code.
 #' @param class_names A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")
-#' @param full_load Default:False, This is to load /refresh ndc code from new files if any.
+#' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
+#' re_calculate_combined_key = False means it will load keys from file otherwise re-compute
 #' @return Vector
 #'
 #' @export
-ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_load=FALSE) {
+ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_calculate_combined_key=FALSE) {
   #Combined Key
-  combined_key <- load_combined_key(full_load)
+  combined_key <- load_combined_key(re_calculate_combined_key)
 
   data <- data.frame(ndc=ndc)
   data.table::setnames(data, "ndc", "NDC_11")
@@ -132,16 +129,17 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_
 #' @title Check 'ndc' code is belongs to any Antimicrobial.
 #' @description
 #'  Function to check input 'ndc' code is belongs to any Antimicrobial or not.
-#' @usage ndc_is_antimicrobial(ndc, class_names, full_load=FALSE)
+#' @usage ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE)
 #' @param ndc A vector containing ndc code.
 #' @param class_names A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
-#' @param full_load Default:False, This is to load /refresh ndc code from new files if any.
+#' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
+#' re_calculate_combined_key = False means it will load keys from file otherwise re-compute
 #' @return Boolean
 #'
 #' @export
-ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_load=FALSE) {
+ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_calculate_combined_key=FALSE) {
   #Combined Key
-  combined_key <- load_combined_key(full_load)
+  combined_key <- load_combined_key(re_calculate_combined_key)
 
   data <- data.frame(ndc=ndc)
   data.table::setnames(data, "ndc", "NDC_11")
@@ -159,7 +157,7 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_
 #' @title Check 'route' is systemic or not
 #' @description
 #'  Function to check 'route' is Systemic or not.
-#' @usage is_systemic_route(route, class_names, full_load=FALSE)
+#' @usage is_systemic_route(route, class_names, re_calculate_combined_key=FALSE)
 #' @param route A vector containing route code.
 #' @param class_names A vector containing relevant_routes_administration class - Eg: PO/NG
 #' @return Boolean
@@ -172,14 +170,6 @@ is_systemic_route <- function(route, class_names = relevant_routes_administratio
                    ignore.case=TRUE)
   return(is_systemic_route)
 }
-
-
-#
-# mimic_prescriptions_path <- "~/data/mimiciv/2.2/hosp/prescriptions.csv.gz"
-#
-# data <- data.table::fread(mimic_prescriptions_path,
-#                           colClasses = c(ndc = "character"))
-#
 
 # # all classes in NDC
 # classes <- strsplit(paste(combined_key$PHARM_CLASSES, collapse = ","), ",")
