@@ -101,9 +101,9 @@ load_combined_key <- function(full_load = FALSE){
 #' @title Convert 'ndc' code to corresponding Antibiotic code.
 #' @description
 #'  Function to convert 'ndc' code to corresponding Antibiotic code.
-#' @usage ndc_to_antimicrobial(ndc, class_names, full_load=FALSE)
+#' @usage ndc_to_antimicrobial(ndc, class_name, full_load=FALSE)
 #' @param ndc A vector containing ndc code.
-#' @param class_names A vector containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
+#' @param class_names A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")
 #' @param full_load Default:False, This is to load /refresh ndc code from new files if any.
 #' @return Vector
 #' @export

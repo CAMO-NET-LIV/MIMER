@@ -4,12 +4,12 @@
 \alias{ndc_to_antimicrobial}
 \title{Convert 'ndc' code to corresponding Antibiotic code.}
 \usage{
-ndc_to_antimicrobial(ndc, class_names, full_load=FALSE)
+ndc_to_antimicrobial(ndc, class_name, full_load=FALSE)
 }
 \arguments{
 \item{ndc}{A vector containing ndc code.}
 
-\item{class_names}{A vector containing antibacterial classes - eg: c("antimicrobial", "antibacterial")}
+\item{class_names}{A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")}
 
 \item{full_load}{Default:False, This is to load /refresh ndc code from new files if any.}
 }
