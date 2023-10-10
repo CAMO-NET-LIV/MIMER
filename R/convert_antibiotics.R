@@ -1,11 +1,15 @@
 library(data.table)
+library(here)
 
 #' @importFrom data.table data.table
 
-product <- read.csv("databases/ndcxls/product.csv")
-package <- read.csv("databases/ndcxls/package.csv")
+product_path <- here("databases/ndcxls", "product.csv")
+package_path <- here("databases/ndcxls", "package.csv")
+combined_key_path <- here("databases/combined_key", "combined_key.csv")
 
-combined_key_path <- "databases/combined_key/combined_key.csv"
+product <- read.csv(product_path)
+package <- read.csv(package_path)
+
 
 all_relevant_classes <- c("antimicrobial",
                           "antibacterial",
@@ -106,6 +110,7 @@ load_combined_key <- function(full_load = FALSE){
 #' @param class_names A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")
 #' @param full_load Default:False, This is to load /refresh ndc code from new files if any.
 #' @return Vector
+#'
 #' @export
 ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, full_load=FALSE) {
   #Combined Key
