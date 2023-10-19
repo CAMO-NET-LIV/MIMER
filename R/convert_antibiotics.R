@@ -106,11 +106,11 @@ load_combined_key <- function(re_calculate_combined_key = FALSE){
 #' @description
 #'  Function to convert 'ndc' code to corresponding Antibiotic code.
 #' @usage ndc_to_antimicrobial(ndc, class_name, re_calculate_combined_key=FALSE)
-#' @param ndc A vector containing ndc code.
+#' @param ndc A vector containing ndc codes. Will be coerced to character.
 #' @param class_names A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
 #' re_calculate_combined_key = False means it will load keys from file otherwise re-compute
-#' @return Vector
+#' @return Vector of antimicrobials in antibiotic class from AMR package.
 #'
 #' @export
 ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_calculate_combined_key=FALSE) {
@@ -136,11 +136,11 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_ca
 #' @description
 #'  Function to check input 'ndc' code is belongs to any Antimicrobial or not.
 #' @usage ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE)
-#' @param ndc A vector containing ndc code.
+#' @param ndc A vector containing ndc codes. Will be coerced to character vector.
 #' @param class_names A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
 #' re_calculate_combined_key = False means it will load keys from file otherwise re-compute
-#' @return Boolean
+#' @return Boolean vector for whether input ndc code corresponds to an antimicrobial
 #'
 #' @export
 ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_calculate_combined_key=FALSE) {
