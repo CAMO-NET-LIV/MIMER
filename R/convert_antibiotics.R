@@ -6,8 +6,10 @@ getProductPath <- function() system.file("extdata/ndcxls", "product.csv", packag
 getPackagePath <- function() system.file("extdata/ndcxls", "package.csv", package = "amrabxlookup", mustWork = TRUE)
 getCombinedkeyPath <- function() system.file("extdata", "combined_key.csv", package = "amrabxlookup", mustWork = TRUE)
 
-product <- read.csv(getProductPath())
-package <- read.csv(getPackagePath())
+product <- read.csv(getProductPath(),
+                    colClasses = 'character')
+package <- read.csv(getPackagePath(),
+                    colClasses = 'character')
 
 all_relevant_classes <- c("antimicrobial",
                           "antibacterial",
@@ -88,7 +90,9 @@ load_combined_key <- function(re_calculate_combined_key = FALSE){
       combined_key <- data.table(combined_key)
     }else{
       tryCatch({
-        combined_key <- data.table(read.csv(getCombinedkeyPath(),header = TRUE))
+        combined_key <- data.table(read.csv(getCombinedkeyPath(),
+                                            colClasses = 'character',
+                                            header = TRUE))
       }, error = function(e) {
          print("File is not loaded. Please try with re_calculate_combined_key=TRUE parameter")
       })
@@ -113,10 +117,9 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_ca
   #Combined Key
   combined_key <- load_combined_key(re_calculate_combined_key)
 
-  data <- data.frame(ndc=ndc)
+  data <- data.table(ndc=ndc)
   data.table::setnames(data, "ndc", "NDC_11")
-  names(data)[names(data) == "ndc"] <- "NDC_11"
-  data2 <- merge(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
+  data2 <- merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
   abx_name <- ifelse(grepl(paste(class_names, collapse = "|"),
                                   data2$PHARM_CLASSES,
                                   ignore.case=TRUE),
@@ -141,11 +144,10 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_ca
   #Combined Key
   combined_key <- load_combined_key(re_calculate_combined_key)
 
-  data <- data.frame(ndc=ndc)
+  data <- data.table(ndc=as.character(ndc))
   data.table::setnames(data, "ndc", "NDC_11")
-  names(data)[names(data) == "ndc"] <- "NDC_11"
 
-  data2 <- merge(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
+  data2 <- merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
   is_abx <-  grepl(paste(class_names, collapse = "|"),
                      data2$PHARM_CLASSES,
                      ignore.case=TRUE)
