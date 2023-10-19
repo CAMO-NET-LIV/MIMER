@@ -115,17 +115,20 @@ load_combined_key <- function(re_calculate_combined_key = FALSE){
 #' @export
 ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_calculate_combined_key=FALSE) {
   #Combined Key
+  ndc_char <- as.character(ndc)
+
   combined_key <- load_combined_key(re_calculate_combined_key)
 
-  data <- data.table(ndc=ndc)
+  data <- data.table(ndc=as.character(ndc))
   data.table::setnames(data, "ndc", "NDC_11")
   data2 <- merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
-  abx_name <- ifelse(grepl(paste(class_names, collapse = "|"),
-                                  data2$PHARM_CLASSES,
-                                  ignore.case=TRUE),
-                            AMR::as.ab(data2$SUBSTANCENAME),
-                            NA)
-  return(abx_name)
+  abx_names <- ifelse(grepl(paste(class_names, collapse = "|"),
+                              data2$PHARM_CLASSES,
+                              ignore.case=TRUE),
+                      data2$SUBSTANCENAME,
+                      NA)
+  abx_names <- AMR::as.ab(abx_names)
+  return(abx_names)
 }
 
 #' ndc_is_antimicrobial
