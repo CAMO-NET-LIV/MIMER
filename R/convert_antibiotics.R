@@ -120,6 +120,10 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_ca
   combined_key <- load_combined_key(re_calculate_combined_key)
 
   data <- data.table(ndc=as.character(ndc))
+  data$ndc <- stringr::str_pad(data$ndc,
+                               width=11,
+                               side = "left",
+                               pad = "0")
   data.table::setnames(data, "ndc", "NDC_11")
   data2 <- merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
   abx_names <- ifelse(grepl(paste(class_names, collapse = "|"),
@@ -148,6 +152,10 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_ca
   combined_key <- load_combined_key(re_calculate_combined_key)
 
   data <- data.table(ndc=as.character(ndc))
+  data$ndc <- stringr::str_pad(data$ndc,
+                               width=11,
+                               side = "left",
+                               pad = "0")
   data.table::setnames(data, "ndc", "NDC_11")
 
   data2 <- merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
