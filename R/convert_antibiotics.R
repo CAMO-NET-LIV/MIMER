@@ -109,7 +109,12 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
                                        width = 11,
                                        side = "left",
                                        pad = "0")
-    combined_key <- rbindlist(list(combined_key, missing), fill = TRUE)
+
+    # prefer missing NDCs table if present
+    combined_key <- rbindlist(list(missing, combined_key),
+                              fill = TRUE, idcol = "priority")
+    combined_key <- unique(combined_key, by = "NDC_11")
+    combined_key[,priority:=NULL]
   }
 
   return(combined_key)
