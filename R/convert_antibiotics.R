@@ -4,12 +4,15 @@ library(data.table)
 
 getProductPath <- function() system.file("extdata/ndcxls", "product.csv", package = "amrabxlookup", mustWork = TRUE)
 getPackagePath <- function() system.file("extdata/ndcxls", "package.csv", package = "amrabxlookup", mustWork = TRUE)
+getMissingNDCPath <- function() system.file("extdata/ndcxls", "missing_ndcs.csv", package = "amrabxlookup", mustWork = TRUE)
 getCombinedkeyPath <- function() system.file("extdata", "combined_key.csv", package = "amrabxlookup", mustWork = TRUE)
 
 product <- read.csv(getProductPath(),
                     colClasses = 'character')
 package <- read.csv(getPackagePath(),
                     colClasses = 'character')
+missing_ndcs <- read.csv(getMissingNDCPath(),
+                         colClasses = 'character')
 
 all_relevant_classes <- c("antimicrobial",
                           "antibacterial",
@@ -75,7 +78,8 @@ write_to_file <- function (df, file_path){
   write.table(df, file = file_path,row.names = FALSE,append= FALSE, sep = ",",col.names = TRUE)
 }
 
-load_combined_key <- function(re_calculate_combined_key = FALSE){
+load_combined_key <- function(re_calculate_combined_key = FALSE,
+                              include_missing_ndcs){
   combined_key=NULL
   if(re_calculate_combined_key){
 
@@ -97,6 +101,17 @@ load_combined_key <- function(re_calculate_combined_key = FALSE){
          print("File is not loaded. Please try with re_calculate_combined_key=TRUE parameter")
       })
     }
+
+  # add missing NDCs (manually generated csv)
+  if(include_missing_ndcs) {
+    missing <- data.table(missing_ndcs)
+    missing$NDC_11 <- stringr::str_pad(missing$NDC_11,
+                                       width = 11,
+                                       side = "left",
+                                       pad = "0")
+    combined_key <- rbindlist(list(combined_key, missing), fill = TRUE)
+  }
+
   return(combined_key)
 }
 
@@ -110,14 +125,18 @@ load_combined_key <- function(re_calculate_combined_key = FALSE){
 #' @param class_names A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
 #' re_calculate_combined_key = False means it will load keys from file otherwise re-compute
+#' @param include_missing_NDCs includes a hardcoded database of NDCs that are present in MIMIC-IV but not in NDC database.
 #' @return Vector of antimicrobials in antibiotic class from AMR package.
 #'
 #' @export
-ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_calculate_combined_key=FALSE) {
+ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes,
+                                 re_calculate_combined_key=FALSE,
+                                 include_missing_NDCs = TRUE) {
   #Combined Key
   ndc_char <- as.character(ndc)
 
-  combined_key <- load_combined_key(re_calculate_combined_key)
+  combined_key <- load_combined_key(re_calculate_combined_key,
+                                    include_missing_NDCs)
 
   data <- data.table(ndc=as.character(ndc))
   data$ndc <- stringr::str_pad(data$ndc,
@@ -144,12 +163,16 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_ca
 #' @param class_names A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
 #' re_calculate_combined_key = False means it will load keys from file otherwise re-compute
+#' @param include_missing_NDCs includes a hardcoded database of NDCs that are present in MIMIC-IV but not in NDC database.
 #' @return Boolean vector for whether input ndc code corresponds to an antimicrobial
 #'
 #' @export
-ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes, re_calculate_combined_key=FALSE) {
+ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes,
+                                 re_calculate_combined_key=FALSE,
+                                 include_missing_NDCs = TRUE) {
   #Combined Key
-  combined_key <- load_combined_key(re_calculate_combined_key)
+  combined_key <- load_combined_key(re_calculate_combined_key,
+                                    include_missing_ndcs)
 
   data <- data.table(ndc=as.character(ndc))
   data$ndc <- stringr::str_pad(data$ndc,
