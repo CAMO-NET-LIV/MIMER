@@ -172,7 +172,7 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes,
                                  include_missing_NDCs = TRUE) {
   #Combined Key
   combined_key <- load_combined_key(re_calculate_combined_key,
-                                    include_missing_ndcs)
+                                    include_missing_NDCs)
 
   data <- data.table(ndc=as.character(ndc))
   data$ndc <- stringr::str_pad(data$ndc,
