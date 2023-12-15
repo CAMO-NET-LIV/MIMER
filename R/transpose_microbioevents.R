@@ -40,7 +40,7 @@ library(dplyr)
 #' @return Data Frame
 
 ## #' @export
-duplicated_microbioevents_records <- function(df, key_columns= c('subject_id','micro_specimen_id','isolate_num','org_name','ab_itemid')){
+duplicated_microbioevents_records <- function(df, key_columns= c('subject_id','micro_specimen_id','isolate_num','org_name','ab_itemid','test_name','test_seq')){
   df %>%
     group_by_at(key_columns) %>%
     mutate(n := row_number()) %>%
@@ -54,7 +54,7 @@ remove_duplicates <- function(df, duplicated_df, key_columns){
 #' @export
 transpose_microbioevents <- function(raw_df, key_columns= c('subject_id','micro_specimen_id','isolate_num','org_name','ab_itemid'),
                                      required_columns = c('subject_id','hadm_id','micro_specimen_id','order_provider_id','chartdate','charttime','spec_itemid',
-                                                        'spec_type_desc','storedate','storetime','test_itemid','test_name','org_itemid','isolate_num','org_name'),
+                                                        'spec_type_desc','storedate','storetime','test_itemid','test_name','test_seq', 'org_itemid','isolate_num','org_name'),
                                      transpose_key_column='ab_name', transpose_value_column='interpretation', fill = "NA", non_empty_filter_column='ab_itemid', remove_duplicates=TRUE){
 
 
