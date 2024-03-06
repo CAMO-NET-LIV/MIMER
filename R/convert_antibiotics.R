@@ -2,10 +2,10 @@ library(data.table)
 
 #' @importFrom data.table data.table
 
-getProductPath <- function() system.file("extdata/ndcxls", "product.csv", package = "amrabxlookup", mustWork = TRUE)
-getPackagePath <- function() system.file("extdata/ndcxls", "package.csv", package = "amrabxlookup", mustWork = TRUE)
-getMissingNDCPath <- function() system.file("extdata/ndcxls", "missing_ndcs.csv", package = "amrabxlookup", mustWork = TRUE)
-getCombinedkeyPath <- function() system.file("extdata", "combined_key.csv", package = "amrabxlookup", mustWork = TRUE)
+getProductPath <- function() system.file("extdata/ndcxls", "product.csv", package = "MIMER", mustWork = TRUE)
+getPackagePath <- function() system.file("extdata/ndcxls", "package.csv", package = "MIMER", mustWork = TRUE)
+getMissingNDCPath <- function() system.file("extdata/ndcxls", "missing_ndcs.csv", package = "MIMER", mustWork = TRUE)
+getCombinedkeyPath <- function() system.file("extdata", "combined_key.csv", package = "MIMER", mustWork = TRUE)
 
 product <- read.csv(getProductPath(),
                     colClasses = 'character')

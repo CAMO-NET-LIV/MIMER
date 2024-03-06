@@ -2,33 +2,33 @@
 output: github_document
 ---
 
-# amrabxlookup
+# MIMER
 
 <!-- badges: start -->
 
 <!-- badges: end -->
 
-The goal of amrabxlookup is to provide various utility functions to process MIMIC dataset to support various data science projects.
+The goal of MIMER is to provide various utility functions to process MIMIC dataset to support various data science projects.
 
 ## Usages
 
 ```                               
-amrabxlookup::ndc_to_antimicrobial(ndc, class)   
+MIMER::ndc_to_antimicrobial(ndc, class)   
 
-amrabxlookup::ndc_is_antimicrobial(ndc, class)  
+MIMER::ndc_is_antimicrobial(ndc, class)  
 
-amrabxlookup::is_systemic_route(route, class)  
+MIMER::is_systemic_route(route, class)  
 
-amrabxlookup::check_previous_events(df, cols, sort_by_col, patient_id_col,
+MIMER::check_previous_events(df, cols, sort_by_col, patient_id_col,
                                 event_indi_value="R", new_col_prefix="pr_event_", 
                                 time_period_in_days = 0, minimum_prev_events = 0)
   
 
-amrabxlookup::transpose_microbioevents(df, key_columns, required_columns, transpose_key_column,
+MIMER::transpose_microbioevents(df, key_columns, required_columns, transpose_key_column,
                                       transpose_value_column, fill = "N/A")  
                                       
 #not recommended to use                                      
-amrabxlookup::clean_antibiotics(
+MIMER::clean_antibiotics(
   x ,
  ... 
   )
@@ -37,16 +37,16 @@ amrabxlookup::clean_antibiotics(
 
 ## Installation
 
-You can install the development version of amrabxlookup from [GitHub](https://github.com/) with:
+You can install the development version of MIMER from [GitHub](https://github.com/) with:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("CAMO-NET-LIV/amrabxlookup", auth_token="<your_personal_access_token>")
+devtools::install_github("CAMO-NET-LIV/MIMER", auth_token="<your_personal_access_token>")
 
 or
 
 install.packages("pak")
-pak::pak("CAMO-NET-LIV/amrabxlookup")
+pak::pak("CAMO-NET-LIV/MIMER")
 
 ```
 
@@ -55,32 +55,32 @@ pak::pak("CAMO-NET-LIV/amrabxlookup")
 This is a basic example which shows you how to solve a common problem:
 
 ```{r example}
-library(amrabxlookup)
+library(MIMER)
 ## basic example code
-amrabxlookup::ndc_to_antimicrobial(ndc='65649030303', class='antibacterial')
+MIMER::ndc_to_antimicrobial(ndc='65649030303', class='antibacterial')
 
 ```
 
 ```{r example2}
-library(amrabxlookup)
+library(MIMER)
 ## basic example code
-amrabxlookup::ndc_is_antimicrobial(ndc='65649030303')
+MIMER::ndc_is_antimicrobial(ndc='65649030303')
 ```
 
 ```{r example3}
-library(amrabxlookup)
+library(MIMER)
 ## basic example code
-amrabxlookup::is_systemic_route(route='PO/NG')
+MIMER::is_systemic_route(route='PO/NG')
 ```
 
 ```{r example4}
-library(amrabxlookup)
+library(MIMER)
 ## basic example code
 df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332','10038332','10038332','10038332','10038332'),
                           chartdate= c('2178-07-03','2178-08-01','2178-08-01','2178-08-01','2178-09-25','2164-07-31','2164-12-22','2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
                           CEFEPIME=c('R','R','R','R','S','R','R','R','S','S','S'),
                           CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
-    amrabxlookup::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', event_indi_value='R')
+    MIMER::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', event_indi_value='R')
 ```
 
 ```{r example5}
@@ -89,7 +89,7 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
                           chartdate= c('2178-07-03','2178-08-01','2178-07-22','2178-08-03','2178-09-25','2164-07-31','2164-12-22','2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
                           CEFEPIME=c('R','S','R','S','S','R','R','R','S','S','S'),
                           CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
-  amrabxlookup::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', minimum_prev_events = 2)
+  MIMER::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', minimum_prev_events = 2)
 
 ```
 
@@ -99,7 +99,7 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
                           chartdate= c('2178-07-03','2178-08-01','2178-07-22','2178-08-03','2178-09-25','2164-07-31','2164-12-22','2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
                           CEFEPIME=c('R','S','R','S','S','R','R','R','S','S','S'),
                           CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
-amrabxlookup::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', time_period_in_days = 25)
+MIMER::check_previous_events(df, cols = c('CEFTAZIDIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', time_period_in_days = 25)
 
 
 ```
@@ -111,7 +111,7 @@ df <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016
                           CEFEPIME=c('R','R','R','R','S','R','R','R','S','S','S'),
                           CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
                           
-amrabxlookup::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', time_period_in_days = 62, minimum_prev_events = 2)
+MIMER::check_previous_events(df, cols = c('CEFEPIME'), sort_by_col = 'chartdate', patient_id_col = 'subject_id', time_period_in_days = 62, minimum_prev_events = 2)
 
 
 ```
@@ -123,24 +123,24 @@ test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742'
                           ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME'),
                           interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
 
-amrabxlookup::transpose_microbioevents(test_data, key_columns = c('subject_id','chartdate','ab_name') , required_columns =c('subject_id','chartdate'), transpose_key_column = 'ab_name',
+MIMER::transpose_microbioevents(test_data, key_columns = c('subject_id','chartdate','ab_name') , required_columns =c('subject_id','chartdate'), transpose_key_column = 'ab_name',
                                                     transpose_value_column = 'interpretation', fill = "N/A", non_empty_filter_column='subject_id')
 ```
 
 
 ```{r example9}
-library(amrabxlookup)
+library(MIMER)
 ## basic example code
-amrabxlookup::clean_antibiotics(c("Amoxicilli"))
+MIMER::clean_antibiotics(c("Amoxicilli"))
 
 ```
 
 
 ```{r example10}
-library(amrabxlookup)
+library(MIMER)
 ## basic example code
 df <- data.frame(drug = c("Amoxicilln","moxicillin","Paracetamol") )
-amrabxlookup::clean_antibiotics(df, drug_col = drug)
+MIMER::clean_antibiotics(df, drug_col = drug)
 
 ```
 
