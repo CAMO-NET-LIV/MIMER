@@ -7,15 +7,17 @@
 ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE)
 }
 \arguments{
-\item{ndc}{A vector containing ndc code.}
+\item{ndc}{A vector containing ndc codes. Will be coerced to character vector.}
 
 \item{class_names}{A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")}
 
 \item{re_calculate_combined_key}{Default:False, This is to load ndc code from a internal package file or re-compute.
 re_calculate_combined_key = False means it will load keys from file otherwise re-compute}
+
+\item{include_missing_NDCs}{includes a hardcoded database of NDCs that are present in MIMIC-IV but not in NDC database.}
 }
 \value{
-Boolean
+Boolean vector for whether input ndc code corresponds to an antimicrobial
 }
 \description{
 Function to check input 'ndc' code is belongs to any Antimicrobial or not.
