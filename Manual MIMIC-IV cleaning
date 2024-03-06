@@ -47,7 +47,7 @@ micro_clean <- function(file_location,microbiologyevents_filename) {
     filter(!grepl("(CANCELLED|VIRUS|SIMPLEX|PARAINFLUENZA|INFLUENZA A|INFLUENZA B|TICK|AFB GROWN|GRAM VARIABLE RODS|HYMENOLEPIS)",org_name)) %>% 
     mutate(ab_name=AMR::as.ab(ab_name)) %>%#-------------------------------------------------------------------------------AMR package parsing of antimicrobial and organism names
     mutate(org_name=AMR::as.mo(org_name)) %>% 
-    amrabxlookup::transpose_microbioevents(
+    MIMER::transpose_microbioevents(
       key_columns = c('subject_id','micro_specimen_id','isolate_num','org_name','ab_itemid','test_name','test_seq'),#------Transpose AST results to columns
       required_columns =c('subject_id','chartdate',"hadm_id","order_provider_id",
                           "charttime","micro_specimen_id","spec_itemid","spec_type_desc",

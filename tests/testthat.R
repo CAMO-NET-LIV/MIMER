@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(amrabxlookup)
+library(MIMER)
 
-test_check("amrabxlookup")
+test_check("MIMER")
