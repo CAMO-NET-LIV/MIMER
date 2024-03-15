@@ -4,7 +4,7 @@ library(tidyr)
 library(stringr)
 
 
-clean_dataframe_column <- function(data, column_name, strings_to_remove= c("POSITIVE FOR","PRESUMPTIVELY","PRESUMPTIVE", "PROBABLE", "IDENTIFICATION", "RESEMBLING", "SEEN",
+preprocess_org_names_urine <- function(data, column_name="org_name", strings_to_remove= c("POSITIVE FOR","PRESUMPTIVELY","PRESUMPTIVE", "PROBABLE", "IDENTIFICATION", "RESEMBLING", "SEEN",
                                                                       "MODERATE", "FEW", "BETA", "METHICILLIN RESISTANT", "NUTRITIONALLY VARIANT",
                                                                       "NOT C. PERFRINGENS OR C. SEPTICUM", "-LACTAMASE POSITIVE", "-LACTAMASE NEGATIVE",
                                                                       "VIRAL ANTIGEN", "CANDIDA INCONSPICUA", "/POSADASII", "NOT FUMIGATUS, FLAVUS OR NIGER",
@@ -27,7 +27,7 @@ clean_dataframe_column <- function(data, column_name, strings_to_remove= c("POSI
   }
 
   if(length(filter_values) > 0){
-    data <- data %>% dplyr::filter(!grepl("(CANCELLED|VIRUS|SIMPLEX|PARAINFLUENZA|INFLUENZA A|INFLUENZA B|TICK|AFB GROWN|GRAM VARIABLE RODS|HYMENOLEPIS)", data[[column_name]]))
+    data <- data %>% dplyr::filter(!grepl(paste(filter_values, collapse = "|"), data[[column_name]]))
   }
 
   return(data)
