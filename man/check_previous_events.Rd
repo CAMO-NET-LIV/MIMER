@@ -6,10 +6,11 @@
 \title{Add a column and check any previous events identified for a particular antibiotic}
 \usage{
 check_previous_events(df, cols, sort_by_col, patient_id_col,
- event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days, minimum_prev_events )
+ event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days,
+ minimum_prev_events, default_na_date)
 }
 \arguments{
-\item{event_indi_value}{(optional) Event value indicating Resistance (Default 'R' )}
+\item{event_indi_value}{Event value indicating Resistance (Default 'R' ). Optional Argument.}
 
 \item{df}{A data frame containing microbiology events}
 
@@ -19,13 +20,13 @@ check_previous_events(df, cols, sort_by_col, patient_id_col,
 
 \item{patient_id_col}{Patient Id Column}
 
-\item{new_col_prefix}{(optional) Custom Prefix for new column(Default 'pr_event_' )}
+\item{new_col_prefix}{Custom Prefix for new column(Default 'pr_event_' ). Optional Argument.}
 
-\item{time_period_in_days}{(optional) to check any  previous events in last 'n' days or not}
+\item{time_period_in_days}{Check any  previous events in last 'n' days or not. Optional Argument.}
 
-\item{minimum_prev_events}{(optional) to check any 'n' number of previous events happened or not}
+\item{minimum_prev_events}{Check any 'n' number of previous events happened or not. Optional Argument.}
 
-\item{default_na_date}{(optional) replacement date string for NA values in sort_by_col eg: '9999-12-31 00:00:00'}
+\item{default_na_date}{replacement date string for NA values in sort_by_col eg: '9999-12-31 00:00:00'. Optional Argument.}
 }
 \value{
 Data Frame
@@ -46,9 +47,11 @@ check_previous_events(test_data, cols="AMIKACIN", sort_by_col='chartdate',
                         patient_id_col='subject_id', event_indi_value='R')
 #Example -2
 
-test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332',
+test_data <- data.frame(subject_id=c('10016742','10016742','10016742',
+                    '10016742','10016742','10038332','10038332',
                     '10038332','10038332','10038332','10038332'),
-              chartdate= c('2178-07-03','2178-08-01','2178-07-22','2178-08-03','2178-09-25','2164-07-31','2164-12-22',
+              chartdate= c('2178-07-03','2178-08-01','2178-07-22',
+                      '2178-08-03','2178-09-25','2164-07-31','2164-12-22',
                       '2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
                CEFEPIME=c('R','S','R','S','S','R','R','R','S','S','S'),
                CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))

@@ -15,7 +15,7 @@ test_that("Check Previous Resistance - base", {
                             pr_event_CEFEPIME =c(FALSE,TRUE,TRUE,TRUE,TRUE,TRUE,FALSE,TRUE,TRUE,TRUE,TRUE),
                             pr_event_CEFTAZIDIME =c(FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE))
 
-  expect_equal(as.data.frame(test_df),expected_df)
+  testthat::expect_equal(as.data.frame(test_df),expected_df)
 
 })
 
@@ -36,7 +36,7 @@ test_that("Check Previous Resistance with 'time_period_in_days' parameter", {
                             pr_event_CEFEPIME =c(FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE),
                             pr_event_CEFTAZIDIME =c(FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,TRUE,FALSE))
 
-  expect_equal(as.data.frame(test_df),expected_df)
+  testthat::expect_equal(as.data.frame(test_df),expected_df)
 
 })
 
@@ -56,7 +56,7 @@ test_that("Check Previous Resistance with 'minimum_prev_events' parameter", {
                             pr_event_CEFEPIME =c(FALSE,FALSE,FALSE,TRUE,TRUE,TRUE,FALSE,FALSE,TRUE,TRUE,TRUE),
                             pr_event_CEFTAZIDIME =c(FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE))
 
-  expect_equal(as.data.frame(test_df),expected_df)
+  testthat::expect_equal(as.data.frame(test_df),expected_df)
 
 })
 
@@ -77,7 +77,7 @@ test_that("Check Previous Resistance with 'minimum_prev_events' + 'time_period_i
                             pr_event_CEFEPIME =c(FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,TRUE,TRUE,FALSE),
                             pr_event_CEFTAZIDIME =c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE))
 
-  expect_equal(as.data.frame(test_df),expected_df)
+  testthat::expect_equal(as.data.frame(test_df),expected_df)
 
 })
 
@@ -98,7 +98,7 @@ test_that("Check Previous Resistance with 'minimum_prev_events' + 'time_period_i
                             pr_event_CEFEPIME =c(FALSE,FALSE,FALSE,TRUE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE),
                             pr_event_CEFTAZIDIME =c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE))
 
-  expect_equal(as.data.frame(test_df),expected_df)
+  testthat::expect_equal(as.data.frame(test_df),expected_df)
 
 })
 
@@ -118,7 +118,7 @@ test_that("Check Previous Resistance with 'minimum_prev_events' + 'time_period_i
                             pr_event_CEFEPIME =c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE),
                             pr_event_CEFTAZIDIME =c(FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,FALSE,TRUE,FALSE,FALSE))
 
-  expect_equal(as.data.frame(test_df),expected_df)
+  testthat::expect_equal(as.data.frame(test_df),expected_df)
 
 })
 

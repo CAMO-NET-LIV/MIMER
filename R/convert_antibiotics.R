@@ -1,6 +1,5 @@
-library(data.table)
 
-#' @importFrom data.table data.table
+#' @importFrom utils read.csv write.table
 
 getProductPath <- function() system.file("extdata/ndcxls", "product.csv", package = "MIMER", mustWork = TRUE)
 getPackagePath <- function() system.file("extdata/ndcxls", "package.csv", package = "MIMER", mustWork = TRUE)
@@ -91,10 +90,10 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
       combined_key <- merge(combined_key, product, by = "PRODUCTNDC",
                             all.x = TRUE)
       combined_key <- combined_key[!duplicated(combined_key$NDC_11),]
-      combined_key <- data.table(combined_key)
+      combined_key <- data.table::data.table(combined_key)
     }else{
       tryCatch({
-        combined_key <- data.table(read.csv(getCombinedkeyPath(),
+        combined_key <- data.table::data.table(read.csv(getCombinedkeyPath(),
                                             colClasses = 'character',
                                             header = TRUE))
       }, error = function(e) {
@@ -104,7 +103,7 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
 
   # add missing NDCs (manually generated csv)
   if(include_missing_ndcs) {
-    missing <- data.table(missing_ndcs)
+    missing <- data.table::data.table(missing_ndcs)
     missing$NDC_11 <- stringr::str_pad(missing$NDC_11,
                                        width = 11,
                                        side = "left",
@@ -125,7 +124,8 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
 #' @title Convert 'ndc' code to corresponding Antibiotic code.
 #' @description
 #'  Function to convert 'ndc' code to corresponding Antibiotic code.
-#' @usage ndc_to_antimicrobial(ndc, class_name, re_calculate_combined_key=FALSE)
+#' @usage ndc_to_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE,
+#' include_missing_NDCs = TRUE)
 #' @param ndc A vector containing ndc codes. Will be coerced to character.
 #' @param class_names A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
@@ -143,7 +143,7 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes,
   combined_key <- load_combined_key(re_calculate_combined_key,
                                     include_missing_NDCs)
 
-  data <- data.table(ndc=as.character(ndc))
+  data <- data.table::data.table(ndc=as.character(ndc))
   data$ndc <- stringr::str_pad(data$ndc,
                                width=11,
                                side = "left",
@@ -163,7 +163,8 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes,
 #' @title Check 'ndc' code is belongs to any Antimicrobial.
 #' @description
 #'  Function to check input 'ndc' code is belongs to any Antimicrobial or not.
-#' @usage ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE)
+#' @usage ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE,
+#' include_missing_NDCs = TRUE)
 #' @param ndc A vector containing ndc codes. Will be coerced to character vector.
 #' @param class_names A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
@@ -179,7 +180,7 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes,
   combined_key <- load_combined_key(re_calculate_combined_key,
                                     include_missing_NDCs)
 
-  data <- data.table(ndc=as.character(ndc))
+  data <- data.table::data.table(ndc=as.character(ndc))
   data$ndc <- stringr::str_pad(data$ndc,
                                width=11,
                                side = "left",
@@ -198,7 +199,7 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes,
 #' @title Check 'route' is systemic or not
 #' @description
 #'  Function to check 'route' is Systemic or not.
-#' @usage is_systemic_route(route, class_names, re_calculate_combined_key=FALSE)
+#' @usage is_systemic_route(route, class_names)
 #' @param route A vector containing route code.
 #' @param class_names A vector containing relevant_routes_administration class - Eg: PO/NG
 #' @return Boolean

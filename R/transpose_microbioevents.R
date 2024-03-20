@@ -1,18 +1,10 @@
-library(reshape2)
-library(data.table)
-library(R.utils)
-library(dplyr)
-
-#' @importFrom stats as.formula
-#' @importFrom dplyr group_by_at
-#' @importFrom reshape2 dcast
-
 #' @name transpose_microbioevents
 #' @title Transpose microbiology events dataset
 #' @description
 #'  This function helps to transpose (rows to columns) microbiology events.
 #' @usage  transpose_microbioevents(raw_df, key_columns,
-#'  required_columns, transpose_key_column, transpose_value_column, fill="NA", non_empty_filter_column, remove_duplicates=TRUE)
+#'  required_columns, transpose_key_column, transpose_value_column,
+#'  fill="NA", non_empty_filter_column, remove_duplicates=TRUE)
 #' @param raw_df A data frame containing microbiology events
 #' @param key_columns (Optional) Primary Key/ Key columns for duplicate check
 #'                   : Default Value = c('subject_id','micro_specimen_id','isolate_num','org_name','ab_itemid')
@@ -29,22 +21,35 @@ library(dplyr)
 #'
 #' @examples
 #'
-#'test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332','10038332','10038332','10038332','10038332'),
-#' chartdate= c('2178-07-03','2178-08-01','2178-08-01','2178-08-01','2178-09-25','2164-07-31','2164-12-22','2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
-#' ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME','CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME'),
+#'test_data <- data.frame(subject_id=c('10016742','10016742','10016742',
+#'             '10016742','10016742','10038332',
+#'             '10038332','10038332','10038332',
+#'             '10038332','10038332'),
+#' chartdate= c('2178-07-03','2178-08-01','2178-08-01',
+#'             '2178-08-01','2178-09-25','2164-07-31',
+#'             '2164-12-22','2164-12-22','2165-01-07',
+#'             '2165-04-17','2165-05-05'),
+#' ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME',
+#'           'CEFTAZIDIME','CEFTAZIDIME','CEFEPIME',
+#'           'CEFEPIME','CEFTAZIDIME','CEFTAZIDIME','CEFEPIME'),
 #' interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
 #'
-#'transpose_microbioevents(test_data, key_columns = c('subject_id','chartdate','ab_name') , required_columns =c('subject_id','chartdate'), transpose_key_column = 'ab_name',
-#'                                                    transpose_value_column = 'interpretation', fill = "N/A", non_empty_filter_column='subject_id')
+#'transpose_microbioevents(test_data, key_columns = c('subject_id','chartdate','ab_name') ,
+#'                        required_columns =c('subject_id','chartdate'),
+#'                        transpose_key_column = 'ab_name',
+#'                        transpose_value_column = 'interpretation', fill = "N/A",
+#'                        non_empty_filter_column='subject_id')
 #'
 #' @return Data Frame
 
 ## #' @export
 duplicated_microbioevents_records <- function(df, key_columns= c('subject_id','micro_specimen_id','isolate_num','org_name','ab_itemid','test_name','test_seq')){
-  df %>%
-    group_by_at(key_columns) %>%
-    mutate(n := row_number()) %>%
-    filter(n > 1)
+
+  n = "n"
+  df |>
+    dplyr::group_by_at(key_columns) |>
+    dplyr::mutate(n := dplyr::row_number()) |>
+    dplyr::filter(n > 1)
 }
 
 remove_duplicates <- function(df, duplicated_df, key_columns){
@@ -59,7 +64,7 @@ transpose_microbioevents <- function(raw_df, key_columns= c('subject_id','micro_
 
 
   if(any(nchar(non_empty_filter_column) > 0)){
-    raw_df <- raw_df %>% filter(!is.na(!!sym(non_empty_filter_column)))
+    raw_df <- raw_df |> dplyr::filter(!is.na(!!rlang::sym(non_empty_filter_column)))
   }
 
   df_without_bad_records=raw_df
@@ -72,7 +77,7 @@ transpose_microbioevents <- function(raw_df, key_columns= c('subject_id','micro_
 
   required_columns = paste(required_columns, collapse = "+")
 
-  reshape2::dcast(df_without_bad_records, formula = as.formula(paste(required_columns, "~", transpose_key_column)), value.var = transpose_value_column ,fill = fill)
+  reshape2::dcast(df_without_bad_records, formula = stats::as.formula(paste(required_columns, "~", transpose_key_column)), value.var = transpose_value_column ,fill = fill)
 
 }
 

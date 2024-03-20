@@ -18,4 +18,5 @@ Imports:
     tidyr,
     anytime,
     reshape2,
-    data.table
+    data.table,
+    testthat

@@ -1,26 +1,12 @@
-# #Importing required modules
-library(dplyr)
-library(tidyr)
-library(stringr)
+# # #Importing required modules
+# library(dplyr)
+# library(tidyr)
+# library(stringr)
+#
+# library(fuzzyjoin)
+# library(AMR)
+#
 
-library(fuzzyjoin)
-library(AMR)
-
-
-globalVariables(c("drug"))
-
-#' @importFrom dplyr %>%
-#' @importFrom dplyr distinct
-#' @importFrom dplyr filter
-#' @importFrom dplyr group_by
-#' @importFrom dplyr mutate
-#' @importFrom dplyr select
-#' @importFrom dplyr left_join
-#' @importFrom dplyr rename
-#' @importFrom dplyr row_number
-#' @importFrom dplyr as_label
-#' @importFrom dplyr if_else
-#' @importFrom dplyr arrange
 #' @importFrom rlang .data
 
 #Generic Function
@@ -55,6 +41,8 @@ clean_antibiotics <- function(x, ...) {
 
 #' @export
 clean_antibiotics.character <- function(x, custom_synonyms = NULL, ...) {
+  drug <- "drug"
+
   temp_df <- data.frame(drug = x)
   clean_temp_df <- clean_antibiotics(temp_df, drug_col = drug, custom_synonyms = custom_synonyms)
   return(clean_temp_df$abx_name)
@@ -64,6 +52,11 @@ clean_antibiotics.character <- function(x, custom_synonyms = NULL, ...) {
 clean_antibiotics.data.frame <- function(x, drug_col,
                                          fuzzy_matching_method = "osa",
                                          custom_synonyms = NULL, ...) {
+
+  # row_num = "row_num"
+  # distance_column = "distance_column"
+  # abx_name="abx_name"
+  # name="name"
 
   stopifnot(nargs()[[1]] >= 2)
 
@@ -92,18 +85,18 @@ clean_antibiotics.data.frame <- function(x, drug_col,
   df_antibiotics <- get_antibiotics_in_medications(medications_cleaned,df_amr_antibiotics_lookup_final,fuzzy_matching_method)
 
   #Removing duplicates for joining with row table
-  df_antibiotics <- df_antibiotics %>%
-    filter(strtoi(distance_column) <=1) %>%
-    distinct({{drug_col}},name, .keep_all = TRUE) %>%
-    group_by({{drug_col}}) %>% arrange(distance_column) %>% mutate(row_num = row_number()) %>%
-    filter(row_num == 1) %>% select(-c("row_num","distance_column"))
+  df_antibiotics <- df_antibiotics |>
+    dplyr::filter(strtoi(distance_column) <=1) |>
+    dplyr::distinct({{drug_col}},name, .keep_all = TRUE) |>
+    dplyr::group_by({{drug_col}}) |> dplyr::arrange(distance_column) |> dplyr::mutate(row_num = dplyr::row_number()) |>
+    dplyr::filter(row_num == 1) |> dplyr::select(-c("row_num","distance_column"))
 
   ##Final Cleanup ####
-  joined_data <- left_join(x, df_antibiotics, by = as_label(substitute(drug_col)))
-  joined_data <- joined_data %>%
-    rename(abx_name = .data$name) %>%
-    mutate(is_abx = if_else(!is.na(.data$abx_name), TRUE, FALSE)) %>%
-    select(-c("medication_cleaned", -"synonyms"))
+  joined_data <- dplyr::left_join(x, df_antibiotics, by = dplyr::as_label(substitute(drug_col)))
+  joined_data <- joined_data |>
+    dplyr::rename(abx_name = name) |>
+    dplyr::mutate(is_abx = dplyr::if_else(!is.na(abx_name), TRUE, FALSE)) |>
+    dplyr::select(-c("medication_cleaned", -"synonyms"))
   return(joined_data)
 }
 

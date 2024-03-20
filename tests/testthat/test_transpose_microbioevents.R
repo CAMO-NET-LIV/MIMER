@@ -14,6 +14,6 @@ test_that("Check Transpose Functionality", {
                             CEFEPIME=c('S','N/A','N/A','N/A','N/A','N/A','S'),
                             CEFTAZIDIME=c('N/A','R','R','S','R','R','N/A'))
 
-  expect_equal(as.data.frame(test_df),expected_df)
+  testthat::expect_equal(as.data.frame(test_df),expected_df)
 
 })

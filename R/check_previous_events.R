@@ -1,32 +1,23 @@
-#Importing required modules
-library(data.table)
-library(dplyr)
-library(purrr)
-library(tidyr)
-library(anytime)
 
-
-#' @importFrom rlang sym
 #' @importFrom rlang :=
-#' @importFrom anytime anytime
-#' @importFrom dplyr ungroup
-
+#' @importFrom testthat expect_equal
 
 #' @name check_previous_events
 #' @title Add a column and check any previous events identified for a particular antibiotic
 #' @description
 #'  This function helps to check any previous events identified or not (TRUE/FALSE)
 #' @usage check_previous_events(df, cols, sort_by_col, patient_id_col,
-#'  event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days, minimum_prev_events )
+#'  event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days,
+#'  minimum_prev_events, default_na_date)
 #' @param df A data frame containing microbiology events
 #' @param cols Columns for each antibiotics which contains events
 #' @param sort_by_col A date column to order the input data frame
 #' @param patient_id_col Patient Id Column
-#' @param event_indi_value (optional) Event value indicating Resistance (Default 'R' )
-#' @param new_col_prefix (optional) Custom Prefix for new column(Default 'pr_event_' )
-#' @param time_period_in_days (optional) to check any  previous events in last 'n' days or not
-#' @param minimum_prev_events (optional) to check any 'n' number of previous events happened or not
-#' @param default_na_date (optional) replacement date string for NA values in sort_by_col eg: '9999-12-31 00:00:00'
+#' @param event_indi_value Event value indicating Resistance (Default 'R' ). Optional Argument.
+#' @param new_col_prefix Custom Prefix for new column(Default 'pr_event_' ). Optional Argument.
+#' @param time_period_in_days Check any  previous events in last 'n' days or not. Optional Argument.
+#' @param minimum_prev_events Check any 'n' number of previous events happened or not. Optional Argument.
+#' @param default_na_date replacement date string for NA values in sort_by_col eg: '9999-12-31 00:00:00'. Optional Argument.
 
 
 #'
@@ -44,9 +35,11 @@ library(anytime)
 #'                         patient_id_col='subject_id', event_indi_value='R')
 #' #Example -2
 #'
-#' test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332',
+#' test_data <- data.frame(subject_id=c('10016742','10016742','10016742',
+#'                     '10016742','10016742','10038332','10038332',
 #'                     '10038332','10038332','10038332','10038332'),
-#'               chartdate= c('2178-07-03','2178-08-01','2178-07-22','2178-08-03','2178-09-25','2164-07-31','2164-12-22',
+#'               chartdate= c('2178-07-03','2178-08-01','2178-07-22',
+#'                       '2178-08-03','2178-09-25','2164-07-31','2164-12-22',
 #'                       '2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
 #'                CEFEPIME=c('R','S','R','S','S','R','R','R','S','S','S'),
 #'                CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
@@ -82,19 +75,19 @@ check_events_in_a_period <- function(data, patient_id_col,event_col, event_date_
      if(start_date_pointer == 0)
        start_date_pointer = 1 # use pointer to find range of results that fall within threshold
 
-      while(as.integer(as.numeric(difftime(anytime(data[[i, {{event_date_col}}]]), anytime(data[[start_date_pointer, {{event_date_col}}]]), units='days')))  > time_period_in_days){
+      while(as.integer(as.numeric(difftime(anytime::anytime(data[[i, {{event_date_col}}]]), anytime::anytime(data[[start_date_pointer, {{event_date_col}}]]), units='days')))  > time_period_in_days){
         start_date_pointer = start_date_pointer+1
       }
 
       end_date_pointer = i
-      while(anytime(data[[i, {{event_date_col}}]]) == anytime(data[[(end_date_pointer-1), {{event_date_col}}]])){
+      while(anytime::anytime(data[[i, {{event_date_col}}]]) == anytime::anytime(data[[(end_date_pointer-1), {{event_date_col}}]])){
         end_date_pointer= end_date_pointer-1
         if(end_date_pointer == 1){
           break
         }
       }
 
-      events = ungroup(data) %>%  select(!!sym(event_col))
+      events = dplyr::ungroup(data) |>  dplyr::select(!!rlang::sym(event_col))
       if(i != end_date_pointer){
         event_sum= add_events(as.list(unlist(events[,1]))[start_date_pointer:end_date_pointer-1],event_indi_value) # sum the events within period
       }else{
@@ -122,6 +115,9 @@ check_events_in_a_period <- function(data, patient_id_col,event_col, event_date_
 
 add_prev_event_column <- function(data, col, new_col, event_indi_value, sort_by_col, patient_id_col, time_period_in_days, minimum_prev_events) {
 
+  events_mapped = "events_mapped"
+  latest_event_date ="latest_event_date"
+
   #Input Validation
   stopifnot(all.equal(minimum_prev_events, as.integer(minimum_prev_events)))
 
@@ -132,34 +128,34 @@ add_prev_event_column <- function(data, col, new_col, event_indi_value, sort_by_
 
   #Calculating Any Previous Event happened or not
   if(time_period_in_days == 0 & minimum_prev_events == 0 ){
-    new_data <- data %>%
-      mutate(events_mapped := ifelse( (! is.na(dplyr::lead(!!sym(sort_by_col)))) & (dplyr::lead(!!sym(sort_by_col)) == !!sym(sort_by_col)),"NA", !!sym(col) ),
-             !!new_col := ifelse(cumsum(ifelse(row_number() == 1,0,
-                                               ifelse(dplyr::lag(events_mapped, 1) == sym(event_indi_value), 1, 0))) >= 1, TRUE, FALSE)) %>% select(-c('events_mapped'))
+    new_data <- data |>
+      dplyr::mutate(events_mapped := ifelse( (! is.na(dplyr::lead(!!rlang::sym(sort_by_col)))) & (dplyr::lead(!!rlang::sym(sort_by_col)) == !!rlang::sym(sort_by_col)),"NA", !!rlang::sym(col) ),
+             !!new_col := ifelse(cumsum(ifelse(dplyr::row_number() == 1,0,
+                                               ifelse(dplyr::lag(events_mapped, 1) == rlang::sym(event_indi_value), 1, 0))) >= 1, TRUE, FALSE)) |> dplyr::select(-c('events_mapped'))
 
   }else{
     if(time_period_in_days > 0 & minimum_prev_events <= 1 ){
-      new_data <- new_data %>%
-        mutate(events_mapped := ifelse( (! is.na(dplyr::lead(!!sym(sort_by_col)))) & (dplyr::lead(!!sym(sort_by_col)) == !!sym(sort_by_col)),"NA", !!sym(col) ),
-               latest_event_date := anytime(cummax(ifelse(dplyr::lag(events_mapped, 1)== sym(event_indi_value) & row_number() != 1,
-                                                          as.numeric(anytime(dplyr::lag(!!sym(sort_by_col), 1))),0 ))),
-               !!new_col := ifelse(row_number() == 1, FALSE,
-                                   ifelse(as.integer(as.numeric(difftime(anytime(!!sym(sort_by_col)), anytime(latest_event_date), units='days')))  <= time_period_in_days,
+      new_data <- new_data |>
+        dplyr::mutate(events_mapped := ifelse( (! is.na(dplyr::lead(!!rlang::sym(sort_by_col)))) & (dplyr::lead(!!rlang::sym(sort_by_col)) == !!rlang::sym(sort_by_col)),"NA", !!rlang::sym(col) ),
+               latest_event_date := anytime::anytime(cummax(ifelse(dplyr::lag(events_mapped, 1)== rlang::sym(event_indi_value) & dplyr::row_number() != 1,
+                                                          as.numeric(anytime::anytime(dplyr::lag(!!rlang::sym(sort_by_col), 1))),0 ))),
+               !!new_col := ifelse(dplyr::row_number() == 1, FALSE,
+                                   ifelse(as.integer(as.numeric(difftime(anytime::anytime(!!rlang::sym(sort_by_col)), anytime::anytime(latest_event_date), units='days')))  <= time_period_in_days,
                                           TRUE,
-                                          FALSE) )) %>% select(-c('latest_event_date','events_mapped'))
-      # new_data <- new_data %>%
+                                          FALSE) )) |> dplyr::select(-c('latest_event_date','events_mapped'))
+      # new_data <- new_data |>
       #   check_events_in_a_period(patient_id_col, event_col=col, event_date_col=sort_by_col, time_period_in_days, minimum_prev_events=1, new_col_name = new_col,event_indi_value)
 
     }else if(time_period_in_days == 0 & minimum_prev_events > 0 ){
-      new_data <- new_data %>%
-        mutate(events_mapped := ifelse( (! is.na(dplyr::lead(!!sym(sort_by_col)))) & (dplyr::lead(!!sym(sort_by_col)) == !!sym(sort_by_col)),"NA", !!sym(col) ),
-               !!new_col := ifelse( cumsum(ifelse(row_number() == 1, 0,
-                                                  ifelse(dplyr::lag(events_mapped, 1) == sym(event_indi_value),  1, 0 ))) >= minimum_prev_events,
+      new_data <- new_data |>
+        dplyr::mutate(events_mapped := ifelse( (! is.na(dplyr::lead(!!rlang::sym(sort_by_col)))) & (dplyr::lead(!!rlang::sym(sort_by_col)) == !!rlang::sym(sort_by_col)),"NA", !!rlang::sym(col) ),
+               !!new_col := ifelse( cumsum(ifelse(dplyr::row_number() == 1, 0,
+                                                  ifelse(dplyr::lag(events_mapped, 1) == rlang::sym(event_indi_value),  1, 0 ))) >= minimum_prev_events,
                                     TRUE,
-                                    FALSE)) %>% select(-c('events_mapped'))
+                                    FALSE)) |> dplyr::select(-c('events_mapped'))
 
     }else if(time_period_in_days > 0 & minimum_prev_events > 1 ){
-      new_data <- new_data %>%
+      new_data <- new_data |>
         check_events_in_a_period(patient_id_col, event_col=col, event_date_col = sort_by_col, time_period_in_days, minimum_prev_events, new_col_name = new_col,event_indi_value)
 
     }
@@ -172,13 +168,13 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
                                  time_period_in_days=0, minimum_prev_events=0, default_na_date='9999-12-31 00:00:00') {
 
 
-  df <- df %>%
-    arrange(!!sym(sort_by_col), !!sym(patient_id_col)) %>%
-    group_by(!!sym(patient_id_col))
+  df <- df |>
+    dplyr::arrange(!!rlang::sym(sort_by_col), !!rlang::sym(patient_id_col)) |>
+    dplyr::group_by(!!rlang::sym(patient_id_col))
 
   #Bug fix to handle NA values
   stopifnot(!is.na(as.POSIXct(default_na_date,format='%Y-%m-%d %H:%M:%S')) | !is.na(as.POSIXct(default_na_date,format='%Y-%m-%d')) )
-  df <- df %>% mutate({{sort_by_col}} := ifelse(is.na(!!sym(sort_by_col)),as.character(default_na_date),as.character(!!sym(sort_by_col))) )
+  df <- df |> dplyr::mutate({{sort_by_col}} := ifelse(is.na(!!rlang::sym(sort_by_col)),as.character(default_na_date),as.character(!!rlang::sym(sort_by_col))) )
 
   i=0
   print("Checking Previous Events for ")
@@ -188,9 +184,9 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
     i=i+1
 
     #Bug fix to handle NA values
-    df <- df %>% mutate({{col}} := ifelse(is.na(!!sym(col)),'NA',as.character(!!sym(col))) )
+    df <- df |> dplyr::mutate({{col}} := ifelse(is.na(!!rlang::sym(col)),'NA',as.character(!!rlang::sym(col))) )
 
-    df <- df %>%
+    df <- df |>
       add_prev_event_column({{col}},{{new_col}},event_indi_value, sort_by_col, patient_id_col, time_period_in_days, minimum_prev_events)
 
   }
