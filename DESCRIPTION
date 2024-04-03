@@ -17,5 +17,8 @@ Imports:
     stringr,
     tidyr,
     anytime,
-    reshape2,
-    data.table
+    testthat,
+    data.table,
+    reshape2
+    
+    

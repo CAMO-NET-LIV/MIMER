@@ -4,7 +4,7 @@
 \alias{ndc_is_antimicrobial}
 \title{Check 'ndc' code is belongs to any Antimicrobial.}
 \usage{
-ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE)
+ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE, include_missing_NDCs = TRUE)
 }
 \arguments{
 \item{ndc}{A vector containing ndc codes. Will be coerced to character vector.}
