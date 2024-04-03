@@ -1,4 +1,3 @@
-library(data.table)
 
 #' @importFrom data.table data.table
 
@@ -88,7 +87,7 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
       package$NDC_11 <- convert_ndc_10_to_11(package$NDCPACKAGECODE)
 
       combined_key <- package[,c("PRODUCTNDC", "NDC_11", "NDCPACKAGECODE")]
-      combined_key <- merge(combined_key, product, by = "PRODUCTNDC",
+      combined_key <- data.table::merge(combined_key, product, by = "PRODUCTNDC",
                             all.x = TRUE)
       combined_key <- combined_key[!duplicated(combined_key$NDC_11),]
       combined_key <- data.table(combined_key)
@@ -111,7 +110,7 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
                                        pad = "0")
 
     # prefer missing NDCs table if present
-    combined_key <- rbindlist(list(missing, combined_key),
+    combined_key <- data.table::rbindlist(list(missing, combined_key),
                               fill = TRUE, idcol = "priority")
     combined_key <- unique(combined_key, by = "NDC_11")
     combined_key[,priority:=NULL]
@@ -149,7 +148,7 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes,
                                side = "left",
                                pad = "0")
   data.table::setnames(data, "ndc", "NDC_11")
-  data2 <- merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
+  data2 <- data.table::merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
   abx_names <- ifelse(grepl(paste(class_names, collapse = "|"),
                               data2$PHARM_CLASSES,
                               ignore.case=TRUE),
@@ -186,7 +185,7 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes,
                                pad = "0")
   data.table::setnames(data, "ndc", "NDC_11")
 
-  data2 <- merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
+  data2 <- data.table::merge.data.table(data, combined_key, by = "NDC_11", all.x = TRUE, sort = FALSE)
   is_abx <-  grepl(paste(class_names, collapse = "|"),
                      data2$PHARM_CLASSES,
                      ignore.case=TRUE)
