@@ -4,7 +4,7 @@
 \alias{ndc_to_antimicrobial}
 \title{Convert 'ndc' code to corresponding Antibiotic code.}
 \usage{
-ndc_to_antimicrobial(ndc, class_name, re_calculate_combined_key=FALSE)
+ndc_to_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE, include_missing_NDCs = TRUE)
 }
 \arguments{
 \item{ndc}{A vector containing ndc codes. Will be coerced to character.}

@@ -6,7 +6,7 @@
 \title{Add a column and check any previous events identified for a particular antibiotic}
 \usage{
 check_previous_events(df, cols, sort_by_col, patient_id_col,
- event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days, minimum_prev_events )
+ event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days, minimum_prev_events, default_na_date='9999-12-31 00:00:00')
 }
 \arguments{
 \item{event_indi_value}{(optional) Event value indicating Resistance (Default 'R' )}
