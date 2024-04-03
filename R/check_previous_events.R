@@ -196,5 +196,7 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
   }
   print(paste("Total Antibiotics Column (Events) Added : ",i))
 
+  df <- df %>% dplyr::ungroup()
+
   return(df)
 }
