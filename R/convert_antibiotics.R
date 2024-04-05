@@ -119,6 +119,16 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
   return(combined_key)
 }
 
+manual_update_combined_ndc_file <- function(all_relevant_classes) {
+
+  combined <- load_combined_key(include_missing_ndcs = T)
+
+  subset(combined,
+         grepl(paste(all_relevant_classes, collapse = "|"),
+                                          combined$PHARM_CLASSES, ignore.case = T)) |>
+  write.csv(file.path(getwd(), "inst/extdata/", "combined_key.csv"))
+
+}
 
 #' ndc_to_antimicrobial
 #' @title Convert 'ndc' code to corresponding Antibiotic code.
