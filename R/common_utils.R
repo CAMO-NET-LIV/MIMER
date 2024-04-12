@@ -49,9 +49,8 @@ get_antibiotics_in_medications <- function (df_medications_cleaned,df_amr_antibi
     ignore_case = TRUE,
     method=fuzzy_matching_method,
     distance_col = "distance_column"
-  ) %>%
-    filter(synonyms != "")
-
-  df_antibiotics_in_df
+  )
+  df_antibiotics_in_df %>%
+                    filter(df_antibiotics_in_df$synonyms != "")
 }
 

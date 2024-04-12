@@ -125,7 +125,8 @@ load_combined_key <- function(re_calculate_combined_key = FALSE,
 #' @title Convert 'ndc' code to corresponding Antibiotic code.
 #' @description
 #'  Function to convert 'ndc' code to corresponding Antibiotic code.
-#' @usage ndc_to_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE, include_missing_NDCs = TRUE)
+#' @usage ndc_to_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE,
+#'  include_missing_NDCs = TRUE)
 #' @param ndc A vector containing ndc codes. Will be coerced to character.
 #' @param class_names A vector containing antibacterial class names - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
@@ -163,9 +164,11 @@ ndc_to_antimicrobial <- function(ndc, class_names = antibacterial_classes,
 #' @title Check 'ndc' code is belongs to any Antimicrobial.
 #' @description
 #'  Function to check input 'ndc' code is belongs to any Antimicrobial or not.
-#' @usage ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE, include_missing_NDCs = TRUE)
+#' @usage ndc_is_antimicrobial(ndc, class_names, re_calculate_combined_key=FALSE,
+#' include_missing_NDCs = TRUE)
 #' @param ndc A vector containing ndc codes. Will be coerced to character vector.
-#' @param class_names A vector  containing antibacterial classes - eg: c("antimicrobial", "antibacterial")
+#' @param class_names A vector  containing antibacterial classes
+#'  - eg: c("antimicrobial", "antibacterial")
 #' @param re_calculate_combined_key Default:False, This is to load ndc code from a internal package file or re-compute.
 #' re_calculate_combined_key = False means it will load keys from file otherwise re-compute
 #' @param include_missing_NDCs includes a hardcoded database of NDCs that are present in MIMIC-IV but not in NDC database.
@@ -200,7 +203,8 @@ ndc_is_antimicrobial <- function(ndc, class_names = antibacterial_classes,
 #'  Function to check 'route' is Systemic or not.
 #' @usage is_systemic_route(route, class_names)
 #' @param route A vector containing route code.
-#' @param class_names A vector containing relevant_routes_administration class - Eg: PO/NG
+#' @param class_names A vector containing relevant_routes_administration class
+#' - Eg: PO/NG
 #' @return Boolean
 #'
 #' @export
@@ -210,6 +214,18 @@ is_systemic_route <- function(route, class_names = relevant_routes_administratio
                               route,
                    ignore.case=TRUE)
   return(is_systemic_route)
+}
+
+#Call this manually to reduce file size.
+manual_update_combined_ndc_file <- function(all_relevant_classes) {
+
+  combined <- load_combined_key(include_missing_ndcs = T)
+
+  subset(combined,
+         grepl(paste(all_relevant_classes, collapse = "|"),
+               combined$PHARM_CLASSES, ignore.case = T)) |>
+    write.csv(file.path(getwd(), "inst/extdata/", "combined_key.csv"))
+
 }
 
 # # all classes in NDC
