@@ -17,8 +17,15 @@ library(anytime)
 #' @title Add a column and check any previous events identified for a particular antibiotic
 #' @description
 #'  This function helps to check any previous events identified or not (TRUE/FALSE)
-#' @usage check_previous_events(df, cols, sort_by_col, patient_id_col,
-#'  event_indi_value="R", new_col_prefix="pr_event_",time_period_in_days, minimum_prev_events, default_na_date='9999-12-31 00:00:00')
+#' @usage check_previous_events(df,
+#'       cols,
+#'       sort_by_col,
+#'       patient_id_col,
+#'       event_indi_value="R",
+#'       new_col_prefix="pr_event_",
+#'       time_period_in_days,
+#'       minimum_prev_events,
+#'       default_na_date='9999-12-31 00:00:00')
 #' @param df A data frame containing microbiology events
 #' @param cols Columns for each antibiotics which contains events
 #' @param sort_by_col A date column to order the input data frame
@@ -27,33 +34,51 @@ library(anytime)
 #' @param new_col_prefix (optional) Custom Prefix for new column(Default 'pr_event_' )
 #' @param time_period_in_days (optional) to check any  previous events in last 'n' days or not
 #' @param minimum_prev_events (optional) to check any 'n' number of previous events happened or not
-#' @param default_na_date (optional) replacement date string for NA values in sort_by_col eg: '9999-12-31 00:00:00'
-
-
+#' @param default_na_date (optional) replacement date string for NA values in sort_by_col
+#'                        eg: '9999-12-31 00:00:00'
 #'
 #' @return Data Frame
 #' @examples
 #'
 #' #Example -1
-#' test_data <- data.frame(subject_id = c(10000032,10000280,10000280,
-#'                                      10000280,10000826,10000826),
-#'                       chartdate = c('2150-10-12','2150-10-12','2151-03-17',
-#'                                   '2146-12-08','2187-09-26','2188-07-01'),
+#' test_data <- data.frame(subject_id = c(10000032,
+#'                                        10000280,
+#'                                        10000280,
+#'                                        10000280,
+#'                                        10000826,
+#'                                        10000826),
+#'                       chartdate = c('2150-10-12',
+#'                                     '2150-10-12',
+#'                                     '2151-03-17',
+#'                                     '2146-12-08',
+#'                                     '2187-09-26',
+#'                                     '2188-07-01'),
 #'                       AMIKACIN=c('R','R','S','S','S','R'))
 #'
-#' check_previous_events(test_data, cols="AMIKACIN", sort_by_col='chartdate',
-#'                         patient_id_col='subject_id', event_indi_value='R')
+#' check_previous_events(test_data,
+#'                       cols="AMIKACIN",
+#'                       sort_by_col='chartdate',
+#'                       patient_id_col='subject_id',
+#'                       event_indi_value='R')
 #' #Example -2
 #'
-#' test_data <- data.frame(subject_id=c('10016742','10016742','10016742','10016742','10016742','10038332','10038332',
-#'                     '10038332','10038332','10038332','10038332'),
-#'               chartdate= c('2178-07-03','2178-08-01','2178-07-22','2178-08-03','2178-09-25','2164-07-31','2164-12-22',
-#'                       '2164-12-22','2165-01-07','2165-04-17','2165-05-05'),
+#' test_data <- data.frame(subject_id=c('10016742', '10016742','10016742',
+#'                                       '10016742','10016742','10038332',
+#'                                       '10038332','10038332','10038332',
+#'                                        '10038332','10038332'),
+#'               chartdate= c('2178-07-03','2178-08-01','2178-07-22',
+#'                           '2178-08-03','2178-09-25','2164-07-31',
+#'                           '2164-12-22','2164-12-22','2165-01-07',
+#'                           '2165-04-17','2165-05-05'),
 #'                CEFEPIME=c('R','S','R','S','S','R','R','R','S','S','S'),
 #'                CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
 #'
-#' check_previous_events(test_data, cols = c('CEFEPIME','CEFTAZIDIME'), sort_by_col = 'chartdate',
-#'                  patient_id_col = 'subject_id', time_period_in_days = 62, minimum_prev_events = 2)
+#' check_previous_events(test_data,
+#'                       cols = c('CEFEPIME','CEFTAZIDIME'),
+#'                       sort_by_col = 'chartdate',
+#'                       patient_id_col = 'subject_id',
+#'                       time_period_in_days = 62,
+#'                       minimum_prev_events = 2)
 #'
 #'
 
@@ -122,6 +147,9 @@ check_events_in_a_period <- function(data, patient_id_col,event_col, event_date_
 
 
 add_prev_event_column <- function(data, col, new_col, event_indi_value, sort_by_col, patient_id_col, time_period_in_days, minimum_prev_events) {
+
+  #Initialization of function variables
+  events_mapped <- latest_event_date <- NULL
 
   #Input Validation
   stopifnot(all.equal(minimum_prev_events, as.integer(minimum_prev_events)))

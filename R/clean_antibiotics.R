@@ -64,6 +64,7 @@ clean_antibiotics.character <- function(x, custom_synonyms = NULL, ...) {
 clean_antibiotics.data.frame <- function(x, drug_col,
                                          fuzzy_matching_method = "osa",
                                          custom_synonyms = NULL, ...) {
+  row_num <- NULL
 
   stopifnot(nargs()[[1]] >= 2)
 
@@ -93,10 +94,10 @@ clean_antibiotics.data.frame <- function(x, drug_col,
 
   #Removing duplicates for joining with row table
   df_antibiotics <- df_antibiotics %>%
-    filter(strtoi(distance_column) <=1) %>%
-    distinct({{drug_col}},name, .keep_all = TRUE) %>%
-    group_by({{drug_col}}) %>% arrange(distance_column) %>% mutate(row_num = row_number()) %>%
-    filter(row_num == 1) %>% select(-c("row_num","distance_column"))
+    filter(strtoi(.data$distance_column) <=1) %>%
+    distinct({{drug_col}},.data$name, .keep_all = TRUE) %>%
+    group_by({{drug_col}}) %>% arrange(.data$distance_column) %>% mutate(row_num = row_number()) %>%
+    filter(.data$row_num == 1) %>% select(-c("row_num","distance_column"))
 
   ##Final Cleanup ####
   joined_data <- left_join(x, df_antibiotics, by = as_label(substitute(drug_col)))
