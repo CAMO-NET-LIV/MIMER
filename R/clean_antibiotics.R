@@ -64,8 +64,6 @@ clean_antibiotics.character <- function(x, custom_synonyms = NULL, ...) {
 clean_antibiotics.data.frame <- function(x, drug_col,
                                          fuzzy_matching_method = "osa",
                                          custom_synonyms = NULL, ...) {
-  row_num <- NULL
-
   stopifnot(nargs()[[1]] >= 2)
 
   if("abx_name" %in% colnames(x) | "synonyms" %in% colnames(x) | "is_abx" %in% colnames(x))

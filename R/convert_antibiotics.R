@@ -221,7 +221,7 @@ is_systemic_route <- function(route, class_names = relevant_routes_administratio
   return(is_systemic_route)
 }
 
-#Call this manually to reduce file size during Build Process.
+#Call this manually to create combined csv file using latest file from NDC website.
 manual_update_combined_ndc_file <- function(all_relevant_classes,
                                             re_calculate_combined_key= TRUE,
                                             zip_file_url="https://www.accessdata.fda.gov/cder/ndctext.zip",
