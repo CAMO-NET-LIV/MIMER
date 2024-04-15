@@ -15,19 +15,20 @@ clean_medication <- function(df,column_name) {
 }
 
 populate_amr_antibiotics <- function(){
+  # name <- synonyms <- name.1 <- NULL
   #Loading Anti-Biotics Data from AMR Package
   df_amr_antibiotics <- as.data.frame(AMR::antibiotics)
 
   df_amr_antibiotics_lookup <- df_amr_antibiotics %>%
-    select(name, synonyms) %>%
-    tidyr::unnest(synonyms)
+    select(.data$name, .data$synonyms) %>%
+    tidyr::unnest(.data$synonyms)
 
-  df_amr_antibiotics_lookup_copy <-  data.frame(name  = distinct(df_amr_antibiotics,name, .keep_all = FALSE),
-                                                synonyms = distinct(df_amr_antibiotics,name, .keep_all = FALSE) )%>%
-    rename("synonyms" =name.1) %>%
-    mutate(synonyms = stringr::str_replace(synonyms," acid",""))
+  df_amr_antibiotics_lookup_copy <-  data.frame(name  = distinct(df_amr_antibiotics,.data$name, .keep_all = FALSE),
+                                                synonyms = distinct(df_amr_antibiotics,.data$name, .keep_all = FALSE) )%>%
+    rename("synonyms" = .data$name.1) %>%
+    mutate(synonyms = stringr::str_replace(.data$synonyms," acid",""))
 
-  df_amr_antibiotics_lookup_final <- rbind(df_amr_antibiotics_lookup_copy,df_amr_antibiotics_lookup) %>% filter(! synonyms=='aminox')
+  df_amr_antibiotics_lookup_final <- rbind(df_amr_antibiotics_lookup_copy,df_amr_antibiotics_lookup) %>% filter(! .data$synonyms=='aminox')
 
   df_amr_antibiotics_lookup_final
 
