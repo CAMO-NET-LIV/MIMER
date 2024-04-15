@@ -9,7 +9,10 @@ is_systemic_route(route, class_names)
 \arguments{
 \item{route}{A vector containing route code.}
 
-\item{class_names}{A vector containing relevant_routes_administration class - Eg: PO/NG}
+\item{class_names}{A vector containing relevant_routes_administration class
+\itemize{
+\item Eg: PO/NG
+}}
 }
 \value{
 Boolean
