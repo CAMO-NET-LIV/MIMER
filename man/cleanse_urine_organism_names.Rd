@@ -2,14 +2,14 @@
 % Please edit documentation in R/clean_microbiology_events.R
 \name{cleanse_urine_organism_names}
 \alias{cleanse_urine_organism_names}
-\title{Preprocess Organism Names in Urine Samples}
+\title{Cleanse organism names in Urine samples}
 \usage{
 cleanse_urine_organism_names(
   data,
   column_name = "org_name",
-  strings_to_remove,
-  standard_mapping,
-  filter_values
+  strings_to_remove = NULL,
+  standard_mapping = NULL,
+  filter_values = NULL
 )
 }
 \arguments{
