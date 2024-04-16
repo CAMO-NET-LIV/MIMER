@@ -1,5 +1,5 @@
 
-#' Preprocess Organism Names in Urine Samples
+#' Cleanse organism names in Urine samples
 #'
 #' Function to preprocess organism names in urine samples.
 #' Removes specified strings, maps certain values to standard ones, and filters out unwanted values.
@@ -63,9 +63,9 @@
 #' @export
 cleanse_urine_organism_names <- function(data,
                                        column_name="org_name",
-                                       strings_to_remove,
-                                       standard_mapping,
-                                       filter_values
+                                       strings_to_remove=NULL,
+                                       standard_mapping=NULL,
+                                       filter_values=NULL
                                    ){
       stopifnot(is.data.frame(data))
 
