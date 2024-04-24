@@ -22,7 +22,7 @@ Code of
 Conduct](https://github.com/CAMO-NET-LIV/MIMER/blob/main/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report
 unacceptable behavior to
-[anoop.velluva\@liverpool.ac.uk](mailto:anoop.velluva@liverpool.ac.uk){.email}.
+[anoop.velluva\@liverpool.ac.uk](mailto:anoop.velluva@liverpool.ac.uk).
 
 ## I Have a Question
 
@@ -48,7 +48,7 @@ We will then take care of the issue as soon as possible.
 
 ## I Want To Contribute
 
-### Reporting Bugs {#reporting-bugs}
+### Reporting Bugs
 
 #### How Do I Submit a Good Bug Report?
 
@@ -81,8 +81,7 @@ Once it's filed:
     be addressed until they are reproduced.
 -   If the team is able to reproduce the issue, it will be marked
     `needs-fix`, as well as possibly other tags (such as `critical`),
-    and the issue will be left to be [implemented by
-    someone].
+    and the issue will be left to be [implemented by someone].
 
 ### Suggesting Enhancements
 
