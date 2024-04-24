@@ -8,11 +8,11 @@ output: github_document
 
 <!-- badges: end -->
 
-The goal of MIMER is to provide various utility functions to process MIMIC dataset to support various data science projects.
+MIMER is an R package designed for analyzing the MIMIC-IV dataset, a repository of pseudonymized electronic health records. It offers a suite of data wrangling functions tailored specifically for preparing the dataset for research purposes, particularly in antimicrobial resistance (AMR) studies. MIMER simplifies complex data manipulation tasks, allowing researchers to focus on their primary inquiries without being bogged down by wrangling complexities. It integrates seamlessly with the AMR package and is ideal for R developers working in AMR research
 
 ## Usages
 
-```                               
+```         
 MIMER::ndc_to_antimicrobial(ndc, class)   
 
 MIMER::ndc_is_antimicrobial(ndc, class)  
@@ -34,20 +34,13 @@ MIMER::clean_antibiotics(
   )
 ```
 
-
 ## Installation
 
 You can install the development version of MIMER from [GitHub](https://github.com/) with:
 
 ``` r
 install.packages("devtools")
-devtools::install_github("CAMO-NET-LIV/MIMER", auth_token="<your_personal_access_token>")
-
-or
-
-install.packages("pak")
-pak::pak("CAMO-NET-LIV/MIMER")
-
+devtools::install_github("CAMO-NET-LIV/MIMER")
 ```
 
 ## Examples
@@ -127,14 +120,12 @@ MIMER::transpose_microbioevents(test_data, key_columns = c('subject_id','chartda
                                                     transpose_value_column = 'interpretation', fill = "N/A", non_empty_filter_column='subject_id')
 ```
 
-
 ```{r example9}
 library(MIMER)
 ## basic example code
 MIMER::clean_antibiotics(c("Amoxicilli"))
 
 ```
-
 
 ```{r example10}
 library(MIMER)
@@ -143,4 +134,3 @@ df <- data.frame(drug = c("Amoxicilln","moxicillin","Paracetamol") )
 MIMER::clean_antibiotics(df, drug_col = drug)
 
 ```
-
