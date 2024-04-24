@@ -1,5 +1,5 @@
 ---
-title: 'MIMER: R Package for MIMIC Data Wrangling for AMR Use Cases..'
+title: 'MIMER: R Package for MIMIC Data Wrangling for AMR Use Cases'
 tags:
   - R
   - MIMIC
