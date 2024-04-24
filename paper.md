@@ -1,5 +1,5 @@
 ---
-title: 'MIMER: R package for MIMIC Data Wrangling'
+title: 'MIMER: R Package for MIMIC Data Wrangling for AMR Use Cases'
 tags:
   - R
   - MIMIC
@@ -24,23 +24,21 @@ affiliations:
    
 date: 23 April 2024
 bibliography: paper.bib
-
 ---
 
 # Summary
 
-Primarily intended for healthcare-related research projects, MIMER is an R package tailored for analyzing the MIMIC-IV (Medical Information Mart for Intensive Care) dataset [@Johnson2023-qp]. This dataset, containing pseudonymized electronic health records, is accessible to credentialed users. MIMER provides a suite of data wrangling functions specifically designed to prepare the dataset for research endeavors, such as antimicrobial resistance (AMR) studies utilizing MIMIC data.
+Primarily intended for healthcare-related research projects, MIMER is an R package tailored for analyzing the MIMIC-IV (Medical Information Mart for Intensive Care) dataset [@Johnson2023-qp]. This dataset, containing pseudonymized electronic health records, is accessible to credentialed users. MIMER provides a suite of data wrangling functions specifically designed to prepare the dataset for research endeavors, such as antimicrobial resistance (AMR) studies utilizing MIMIC data. Developed entirely in R, MIMER is aimed at R developers primarily engaged in AMR research[@Prestinaci2015-pj]. The package seamlessly integrates with the AMR [@Berends2022-iv] package, enhancing the analytical capabilities for AMR-related (Anti-Microbial Resistance) studies.
 
 # Statement of need
 
-The abstraction of complex data wrangling procedures into a library fulfills a critical need in research projects [@Gupta2022-el] [@Hempel2023-ud]. This approach offers a standardized solution for managing complex data manipulation tasks, enabling scholars to concentrate on their primary research inquiries without struggling with data wrangling complexities.
-
+The abstraction of complex data wrangling procedures into a library fulfills a critical need in research projects . This approach offers a standardized solution for managing complex data manipulation tasks, enabling scholars to concentrate on their primary research inquiries without struggling with data wrangling complexities. While similar projects exist for MIMIC data wrangling [@Gupta2022-el], MIMER distinguishes itself by prioritizing Anti-Microbial Resistance (AMR) research, offering seamless integration with the AMR package for R users.
 
 Major Features of MIMER:
 
 1.  Convert National Drug Code to corresponding antibiotic code:
 
-    MIMER provides a function to convert National Drug Codes (NDC) to corresponding antibiotic codes by mapping NDC codes to specific antibiotic names or identifiers, making the dataset more understandable and usable for     analysis. Additionally, MIMER provides functionality to verify whether an NDC code corresponds to an antimicrobial agent and includes a feature to determine if the route represents a systemic route or not. 
+    MIMER provides a function to convert National Drug Codes (NDC) to corresponding antibiotic codes by mapping NDC codes to specific antibiotic names or identifiers, making the dataset more understandable and usable for analysis. Additionally, MIMER provides functionality to verify whether an NDC code corresponds to an antimicrobial agent and includes a feature to determine if the route represents a systemic route or not.
 
 2.  Check previous events observed in the dataset within a particular period:
 
@@ -48,18 +46,12 @@ Major Features of MIMER:
 
 3.  Transposing (pivoting) the microbiology dataset:
 
-    MIMER offers functionality to transpose or pivot microbiology datasets. This process involves reorganizing the   dataset to make it more consumable and useful for machine learning applications. By pivoting the data, users can reshape it into a format that is easier to analyse and interpret, enabling more effective model training and analysis.
-
+    MIMER offers functionality to transpose or pivot microbiology datasets. This process involves reorganizing the dataset to make it more consumable and useful for machine learning applications. By pivoting the data, users can reshape it into a format that is easier to analyse and interpret, enabling more effective model training and analysis.
 
 These features represent just a portion of MIMER's capabilities, and the project is designed to be scalable, allowing for the addition of more functionalities as needed.
 
 # Acknowledgements
 
-This research was funded in part by the Wellcome Trust [grant ref: 226691/Z/22/Z]. For the purpose of open access, the author has applied a CC BY public copyright licence to any Author Accepted Manuscript version arising from this submission. 
+This research was funded in part by the Wellcome Trust [grant ref: 226691/Z/22/Z]. For the purpose of open access, the author has applied a CC BY public copyright licence to any Author Accepted Manuscript version arising from this submission.
 
 # References
-
-
-
-
-
