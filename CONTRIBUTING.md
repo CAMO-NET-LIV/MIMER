@@ -15,16 +15,16 @@ to read the relevant section before making your contribution. It will
 make it a lot easier for us maintainers and smooth out the experience
 for all involved. The community looks forward to your contributions. 🎉
 
-## Code of Conduct {#code-of-conduct}
+## Code of Conduct
 
 This project and everyone participating in it is governed by the [MIMER
 Code of
-Conduct](https://github.com/CAMO-NET-LIV/MIMERblob/master/CODE_OF_CONDUCT.md).
+Conduct](https://github.com/CAMO-NET-LIV/MIMER/master/CODE_OF_CONDUCT.md).
 By participating, you are expected to uphold this code. Please report
 unacceptable behavior to
 [anoop.velluva\@liverpool.ac.uk](mailto:anoop.velluva@liverpool.ac.uk){.email}.
 
-## I Have a Question {#i-have-a-question}
+## I Have a Question
 
 > If you want to ask a question, we assume that you have read the
 > available
@@ -46,7 +46,7 @@ clarification, we recommend the following:
 
 We will then take care of the issue as soon as possible.
 
-## I Want To Contribute {#i-want-to-contribute}
+## I Want To Contribute
 
 ### Reporting Bugs {#reporting-bugs}
 
@@ -84,7 +84,7 @@ Once it's filed:
     and the issue will be left to be [implemented by
     someone](#your-first-code-contribution).
 
-### Suggesting Enhancements {#suggesting-enhancements}
+### Suggesting Enhancements
 
 This section guides you through submitting an enhancement suggestion for
 MIMER, **including completely new features and minor improvements to
