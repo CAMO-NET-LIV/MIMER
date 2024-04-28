@@ -46,7 +46,7 @@ Major Features of MIMER:
 
 3.  Transposing (pivoting) the microbiology dataset for Antimicrobial susceptibility testing (AST):
 
-    MIMER provides a feature for transposing or pivoting susceptibility columns in the microbiology datasets, restructures the dataset to enhance its usability for machine learning/analytical purposes. This functionality ultimately enables more effective model training and analysis in the context of Antimicrobial Susceptibility Testing.
+    MIMER provides a feature for transposing or pivoting susceptibility columns in the microbiology datasets, restructures the dataset to enhance its usability for machine learning/analytical purposes. This functionality ultimately enables more effective model training and statistical analysis in the context of Antimicrobial Susceptibility Testing.
 
 These features represent just a portion of MIMER's capabilities, and the project is designed to be scalable, allowing for the addition of more functionalities as needed.
 
