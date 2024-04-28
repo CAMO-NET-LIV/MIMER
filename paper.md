@@ -28,7 +28,7 @@ bibliography: paper.bib
 
 # Summary
 
-Primarily intended for healthcare-related research projects, MIMER is an R package tailored for analyzing the MIMIC-IV (Medical Information Mart for Intensive Care) dataset [@Johnson2023-qp]. MIMIC-IV is an open-source psedonymised electronic health care data for over 40,000 patients admitted at the Beth Israel Deaconess Medical Center (BIDMC), accessible to credentialed users (https://physionet.org/content/mimiciv/2.2/). MIMER provides a suite of data wrangling functions specifically designed to prepare the dataset for research projects. Developed entirely in R, MIMER is aimed at R developers primarily engaged in antimicrobial resistance (AMR) [@Prestinaci2015-pj] studies utilizing MIMIC data. The package seamlessly integrates with the AMR [@Berends2022-iv] package, enhancing the analytical capabilities for AMR-related studies.
+Primarily intended for healthcare-related research projects, MIMER is an R package with zero-dependencies, tailored for analyzing the MIMIC-IV (Medical Information Mart for Intensive Care) dataset [@Johnson2023-qp]. MIMIC-IV is an open-source psedonymised electronic health care data for over 40,000 patients admitted at the Beth Israel Deaconess Medical Center (BIDMC), accessible to credentialed users (https://physionet.org/content/mimiciv/2.2/). MIMER provides a suite of data wrangling functions specifically designed to prepare the dataset for research projects. Developed entirely in R, MIMER is aimed at R developers primarily engaged in antimicrobial resistance (AMR) [@Prestinaci2015-pj] studies utilizing MIMIC data. The package seamlessly integrates with the AMR [@Berends2022-iv] package, enhancing the analytical capabilities for AMR-related studies.
 
 # Statement of need
 
