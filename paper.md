@@ -28,11 +28,11 @@ bibliography: paper.bib
 
 # Summary
 
-Primarily intended for healthcare-related research projects, MIMER is an R package tailored for analyzing the MIMIC-IV (Medical Information Mart for Intensive Care) dataset [@Johnson2023-qp]. This dataset, containing pseudonymized electronic health records, is accessible to credentialed users. MIMER provides a suite of data wrangling functions specifically designed to prepare the dataset for research endeavors, such as antimicrobial resistance (AMR) studies utilizing MIMIC data. Developed entirely in R, MIMER is aimed at R developers primarily engaged in AMR research[@Prestinaci2015-pj]. The package seamlessly integrates with the AMR [@Berends2022-iv] package, enhancing the analytical capabilities for AMR-related (Anti-Microbial Resistance) studies.
+Primarily intended for healthcare-related research projects, MIMER is an R package tailored for analyzing the MIMIC-IV (Medical Information Mart for Intensive Care) dataset [@Johnson2023-qp]. MIMIC-IV is an open-source psedonymised electronic health care data for over 40,000 patients admitted at the Beth Israel Deaconess Medical Center (BIDMC), accessible to credentialed users (https://physionet.org/content/mimiciv/2.2/). MIMER provides a suite of data wrangling functions specifically designed to prepare the dataset for research projects. Developed entirely in R, MIMER is aimed at R developers primarily engaged in antimicrobial resistance (AMR) [@Prestinaci2015-pj] studies utilizing MIMIC data. The package seamlessly integrates with the AMR [@Berends2022-iv] package, enhancing the analytical capabilities for AMR-related studies.
 
 # Statement of need
 
-The abstraction of complex data wrangling procedures into a library fulfills a critical need in research projects . This approach offers a standardized solution for managing complex data manipulation tasks, enabling scholars to concentrate on their primary research inquiries without struggling with data wrangling complexities. While similar projects exist for MIMIC data wrangling [@Gupta2022-el], MIMER distinguishes itself by prioritizing Anti-Microbial Resistance (AMR) research, offering seamless integration with the AMR package for R users.
+The abstraction of complex data wrangling procedures into a library fulfills a critical need in research projects. This approach offers a standardized solution for managing complex data manipulation tasks, enabling reserachers to concentrate on their primary research inquiries without struggling with data wrangling complexities. While similar projects exist for MIMIC data wrangling [@Gupta2022-el], MIMER distinguishes itself by prioritizing Anti-Microbial Resistance (AMR) research, offering seamless integration with the AMR package for R users (AMR package is an open-source R Package to simplify the process of analyzing and predicting antimicrobial resistance).
 
 Major Features of MIMER:
 
@@ -44,9 +44,9 @@ Major Features of MIMER:
 
     MIMER offers a powerful functionality to analyze previous events within a dataset over a specified period. This feature is highly customizable, allowing users to define various parameters according to their analytical requirements. By leveraging this capability, users can gain insights into historical trends and patterns present in the dataset. This historical analysis proves invaluable for a wide range of analytical purposes, enabling researchers to make informed decisions and derive meaningful conclusions from the data.
 
-3.  Transposing (pivoting) the microbiology dataset:
+3.  Transposing (pivoting) the microbiology dataset for Antimicrobial susceptibility testing (AST):
 
-    MIMER offers functionality to transpose or pivot microbiology datasets. This process involves reorganizing the dataset to make it more consumable and useful for machine learning applications. By pivoting the data, users can reshape it into a format that is easier to analyse and interpret, enabling more effective model training and analysis.
+    MIMER provides a feature for transposing or pivoting susceptibility columns in the microbiology datasets, restructures the dataset to enhance its usability for machine learning/analytical purposes. This functionality ultimately enables more effective model training and analysis in the context of Antimicrobial Susceptibility Testing.
 
 These features represent just a portion of MIMER's capabilities, and the project is designed to be scalable, allowing for the addition of more functionalities as needed.
 
