@@ -1,9 +1,5 @@
 # MIMER
 
-<!-- badges: start -->
-
-<!-- badges: end -->
-
 MIMER is an R package designed for analyzing the MIMIC-IV dataset, a repository of pseudonymized electronic health records. It offers a suite of data wrangling functions tailored specifically for preparing the dataset for research purposes, particularly in antimicrobial resistance (AMR) studies. MIMER simplifies complex data manipulation tasks, allowing researchers to focus on their primary inquiries without being bogged down by wrangling complexities. It integrates seamlessly with the AMR package and is ideal for R developers working in AMR research
 
 ## Usages
@@ -241,3 +237,7 @@ MIMER::clean_antibiotics(df, drug_col = drug)
 ## 2  moxicillin Amoxicillin Amoxicillin   TRUE
 ## 3 Paracetamol        <NA>        <NA>  FALSE
 ```
+
+## Funding
+
+This research was funded in part by the Wellcome Trust [grant ref: 226691/Z/22/Z]. For the purpose of open access, the author has applied a CC BY public copyright licence to any Author Accepted Manuscript version arising from this submission.
