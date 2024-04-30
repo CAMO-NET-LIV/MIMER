@@ -1,13 +1,3 @@
-# #Importing required modules
-library(dplyr)
-library(tidyr)
-library(stringr)
-
-library(fuzzyjoin)
-library(AMR)
-
-
-globalVariables(c("drug"))
 
 #' @importFrom dplyr %>%
 #' @importFrom dplyr distinct
@@ -22,6 +12,8 @@ globalVariables(c("drug"))
 #' @importFrom dplyr if_else
 #' @importFrom dplyr arrange
 #' @importFrom rlang .data
+
+globalVariables(c("drug"))
 
 #Generic Function
 #' @name clean_antibiotics

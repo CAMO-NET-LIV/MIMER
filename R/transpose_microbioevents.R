@@ -1,7 +1,3 @@
-library(reshape2)
-library(data.table)
-library(R.utils)
-library(dplyr)
 
 #' @importFrom stats as.formula
 #' @importFrom dplyr group_by_at
