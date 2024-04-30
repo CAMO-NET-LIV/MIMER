@@ -1,5 +1,5 @@
 Package: MIMER
-Title: MIMER: R Package for MIMIC Data Wrangling for AMR Use Cases
+Title: Package for MIMIC Data Wrangling for AMR Use Cases
 Version: 0.0.0.9000
 Authors@R: 
     person("Anoop", "Velluva", , "anoop.velluva@liverpool.ac.uk", role = c("aut", "cre"),
