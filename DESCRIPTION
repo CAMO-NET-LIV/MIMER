@@ -1,11 +1,10 @@
 Package: MIMER
-Title: package for MIMIC Data Wrangling for Antimicrobial resistance studies
+Title: Package for MIMIC Data Wrangling for Antimicrobial Resistance Studies
 Version: 0.0.0.9000
 Authors@R: 
     person("Anoop", "Velluva", , "anoop.velluva@liverpool.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0001-6198-6016"))
-Description: |
-  designed for analyzing the MIMIC-IV dataset, a repository of freely accessible 
+Description: Designed for analyzing the MIMIC-IV dataset, a repository of freely accessible 
   electronic health records. It offers a suite of data wrangling functions
   tailored specifically for preparing the dataset for research purposes,
   particularly in antimicrobial resistance studies. It simplifies
