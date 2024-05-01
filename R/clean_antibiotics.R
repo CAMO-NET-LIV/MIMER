@@ -58,6 +58,8 @@ clean_antibiotics.data.frame <- function(x, drug_col,
                                          custom_synonyms = NULL, ...) {
   stopifnot(nargs()[[1]] >= 2)
 
+  name <- abx_name <- NULL
+
   if("abx_name" %in% colnames(x) | "synonyms" %in% colnames(x) | "is_abx" %in% colnames(x))
   {
     stop(message("Please pass valid Data Frame, column names like abx_name/synonyms/is_abx are not allowed"))
@@ -85,15 +87,15 @@ clean_antibiotics.data.frame <- function(x, drug_col,
   #Removing duplicates for joining with row table
   df_antibiotics <- df_antibiotics %>%
     filter(strtoi(.data$distance_column) <=1) %>%
-    distinct({{drug_col}},.data$name, .keep_all = TRUE) %>%
+    distinct({{drug_col}}, name, .keep_all = TRUE) %>%
     group_by({{drug_col}}) %>% arrange(.data$distance_column) %>% mutate(row_num = row_number()) %>%
     filter(.data$row_num == 1) %>% select(-c("row_num","distance_column"))
 
   ##Final Cleanup ####
   joined_data <- left_join(x, df_antibiotics, by = as_label(substitute(drug_col)))
   joined_data <- joined_data %>%
-    rename(abx_name = .data$name) %>%
-    mutate(is_abx = if_else(!is.na(.data$abx_name), TRUE, FALSE)) %>%
+    rename(abx_name = name) %>%
+    mutate(is_abx = if_else(!is.na(abx_name), TRUE, FALSE)) %>%
     select(-c("medication_cleaned", -"synonyms"))
   return(joined_data)
 }
