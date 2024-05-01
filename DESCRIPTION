@@ -4,9 +4,6 @@ Version: 0.0.0.9000
 Authors@R: 
     person("Anoop", "Velluva", , "anoop.velluva@liverpool.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0001-6198-6016"))
-<<<<<<< Updated upstream
-Description: MIMER is an R package designed for analyzing the MIMIC-IV dataset, a repository of pseudonymized electronic health records. It offers a suite of data wrangling functions tailored specifically for preparing the dataset for research purposes, particularly in antimicrobial resistance (AMR) studies. MIMER simplifies complex data manipulation tasks, allowing researchers to focus on their primary inquiries without being bogged down by wrangling complexities. It integrates seamlessly with the AMR package and is ideal for R developers working in AMR research.  
-=======
 Description: |
   designed for analyzing the MIMIC-IV dataset, a repository of freely available
   electronic health records. It offers a suite of data wrangling functions
@@ -14,7 +11,6 @@ Description: |
   particularly in antimicrobial resistance studies. It simplifies
   complex data manipulation tasks, allowing researchers to focus on their
   primary inquiries without being bogged down by wrangling complexities.
->>>>>>> Stashed changes
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
