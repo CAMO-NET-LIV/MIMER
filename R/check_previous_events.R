@@ -1,7 +1,6 @@
 
 #' @importFrom rlang sym
 #' @importFrom rlang :=
-#' @importFrom anytime anytime
 #' @importFrom dplyr ungroup
 #' @importFrom testthat expect_equal
 
@@ -101,12 +100,12 @@ check_events_in_a_period <- function(data, patient_id_col,event_col, event_date_
      if(start_date_pointer == 0)
        start_date_pointer = 1 # use pointer to find range of results that fall within threshold
 
-      while(as.integer(as.numeric(difftime(anytime(data[[i, {{event_date_col}}]]), anytime(data[[start_date_pointer, {{event_date_col}}]]), units='days')))  > time_period_in_days){
+      while(as.integer(as.numeric(difftime(as.POSIXct(data[[i, {{event_date_col}}]]), as.POSIXct(data[[start_date_pointer, {{event_date_col}}]]), units='days')))  > time_period_in_days){
         start_date_pointer = start_date_pointer+1
       }
 
       end_date_pointer = i
-      while(anytime(data[[i, {{event_date_col}}]]) == anytime(data[[(end_date_pointer-1), {{event_date_col}}]])){
+      while(as.POSIXct(data[[i, {{event_date_col}}]]) == as.POSIXct(data[[(end_date_pointer-1), {{event_date_col}}]])){
         end_date_pointer= end_date_pointer-1
         if(end_date_pointer == 1){
           break
@@ -163,10 +162,10 @@ add_prev_event_column <- function(data, col, new_col, event_indi_value, sort_by_
     if(time_period_in_days > 0 & minimum_prev_events <= 1 ){
       new_data <- new_data %>%
         mutate(events_mapped := ifelse( (! is.na(dplyr::lead(!!sym(sort_by_col)))) & (dplyr::lead(!!sym(sort_by_col)) == !!sym(sort_by_col)),"NA", !!sym(col) ),
-               latest_event_date := anytime(cummax(ifelse(dplyr::lag(events_mapped, 1)== sym(event_indi_value) & row_number() != 1,
-                                                          as.numeric(anytime(dplyr::lag(!!sym(sort_by_col), 1))),0 ))),
+               latest_event_date := as.POSIXct(cummax(ifelse(dplyr::lag(events_mapped, 1)== sym(event_indi_value) & row_number() != 1,
+                                                          as.numeric(as.POSIXct(dplyr::lag(!!sym(sort_by_col), 1))),0 ))),
                !!new_col := ifelse(row_number() == 1, FALSE,
-                                   ifelse(as.integer(as.numeric(difftime(anytime(!!sym(sort_by_col)), anytime(latest_event_date), units='days')))  <= time_period_in_days,
+                                   ifelse(as.integer(as.numeric(difftime(as.POSIXct(!!sym(sort_by_col)), as.POSIXct(latest_event_date), units='days')))  <= time_period_in_days,
                                           TRUE,
                                           FALSE) )) %>% select(-c('latest_event_date','events_mapped'))
       # new_data <- new_data %>%
