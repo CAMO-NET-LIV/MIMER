@@ -106,7 +106,7 @@ load_combined_key <- function(include_missing_ndcs,
                                             colClasses = 'character',
                                             header = TRUE))
       }, error = function(e) {
-         print("File is not loaded. Please try with re_calculate_combined_key=TRUE parameter")
+        message("File is not loaded. Please try with re_calculate_combined_key=TRUE parameter")
       })
     }
 
