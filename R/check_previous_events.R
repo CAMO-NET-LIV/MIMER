@@ -202,9 +202,9 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
   df <- df %>% mutate({{sort_by_col}} := ifelse(is.na(!!sym(sort_by_col)),as.character(default_na_date),as.character(!!sym(sort_by_col))) )
 
   i=0
-  print("Checking Previous Events for ")
+  message("Checking Previous Events for ")
   for(col in cols){
-    print(col)
+    message(col)
     new_col = paste0(new_col_prefix,col)
     i=i+1
 
@@ -215,7 +215,7 @@ check_previous_events<- function(df,cols,sort_by_col,patient_id_col, event_indi_
       add_prev_event_column({{col}},{{new_col}},event_indi_value, sort_by_col, patient_id_col, time_period_in_days, minimum_prev_events)
 
   }
-  print(paste("Total Antibiotics Column (Events) Added : ",i))
+  message(paste("Total Antibiotics Column (Events) Added : ",i))
 
   df <- df %>% dplyr::ungroup()
 
