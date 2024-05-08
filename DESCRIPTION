@@ -4,9 +4,9 @@ Version: 1.0.0
 Authors@R: 
     c(person("Anoop", "Velluva", , "anoop.velluva@liverpool.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0001-6198-6016")),
-    person("Alessandro", "Gerada", , "Alessandro.Gerada@liverpool.ac.uk", role = c("ctb"),
-           comment = c(ORCID = "0000-0002-6743-4271"))
-    person("Alexander", "Howard", , "Alexander.Howard@liverpool.ac.uk", role = c("ctb"),
+    person("Alessandro", "Gerada", , "alessandro.gerada@liverpool.ac.uk", role = c("ctb"),
+           comment = c(ORCID = "0000-0002-6743-4271")),
+    person("Alexander", "Howard", , "alexander.howard@liverpool.ac.uk", role = c("ctb"),
            comment = c(ORCID = "0000-0000-0000-0000")))
 Description: Designed for analyzing the Medical Information Mart for Intensive Care(MIMIC) dataset, 
   a repository of freely accessible electronic health records. MIMER(MIMIC-enabled Research) package, offers
