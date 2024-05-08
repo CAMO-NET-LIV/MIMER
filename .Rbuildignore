@@ -7,3 +7,4 @@
 ^paper\.bib$
 ^paper\.md$
 ^\.github$
+^cran-comments\.md$
