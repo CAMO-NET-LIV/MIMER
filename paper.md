@@ -10,16 +10,16 @@ authors:
     orcid: 0009-0001-6198-6016
     equal-contrib: true
     affiliation: 1
-  - name: Alessandro Gerada
-    orcid: 0000-0002-6743-4271
-    equal-contrib: true 
-    affiliation: 1
   - name: Alex Howard
     orcid: 0000-0000-0000-0000
     equal-contrib: true
     affiliation: 1
+  - name: Alessandro Gerada
+    orcid: 0000-0002-6743-4271
+    equal-contrib: true 
+    affiliation: 1
 affiliations:
- - name: Dept.of Pharmacology, University of Liverpool, United Kingdom
+ - name: Department of Antimicrobial Pharmacodynamics and Therapeutics, Institute of Systems, Molecular and Integrative Biology, University of Liverpool, Liverpool, United Kingdom
    index: 1
    
 date: 23 April 2024
@@ -46,7 +46,7 @@ Major Features of MIMER:
 
 3.  Transposing (pivoting) the microbiology dataset for Antimicrobial susceptibility testing (AST):
 
-    MIMER provides a feature for transposing or pivoting susceptibility columns in the microbiology datasets, restructures the dataset to enhance its usability for machine learning/analytical purposes. This functionality ultimately enables more effective model training and analysis in the context of Antimicrobial Susceptibility Testing.
+    MIMER provides a feature for transposing or pivoting susceptibility columns in the microbiology datasets, restructures the dataset to enhance its usability for machine learning/analytical purposes. This functionality ultimately enables more effective model training and statistical analysis in the context of Antimicrobial Susceptibility Testing.
 
 These features represent just a portion of MIMER's capabilities, and the project is designed to be scalable, allowing for the addition of more functionalities as needed.
 
