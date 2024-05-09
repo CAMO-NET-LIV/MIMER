@@ -34,7 +34,7 @@ The Medical Information Mart for Intensive Care (MIMIC) dataset is a deidentifie
 
 The abstraction of complex data wrangling procedures into a library fulfills a critical need in research projects. This approach offers a standardized solution for managing complex data manipulation tasks, enabling reserachers to concentrate on their primary research inquiries without struggling with data wrangling complexities. While similar projects exist for MIMIC data wrangling [@Gupta2022-el], MIMER distinguishes itself by prioritizing Anti-Microbial Resistance (AMR) research, offering seamless integration with the AMR package for R users (AMR package is an open-source R Package to simplify the process of analyzing and predicting antimicrobial resistance).
 
-Major Features of MIMER:
+# Major features of MIMER
 
 1.  Convert National Drug Code to corresponding antibiotic code:
 
