@@ -10,13 +10,13 @@ authors:
     orcid: 0009-0001-6198-6016
     equal-contrib: true
     affiliation: 1
-  - name: Alex Howard
-    orcid: 0000-0000-0000-0000
-    equal-contrib: true
-    affiliation: 1
   - name: Alessandro Gerada
     orcid: 0000-0002-6743-4271
     equal-contrib: true 
+    affiliation: 1
+  - name: Alex Howard
+    orcid: 0000-0000-0000-0000
+    equal-contrib: true
     affiliation: 1
 affiliations:
  - name: Department of Antimicrobial Pharmacodynamics and Therapeutics, Institute of Systems, Molecular and Integrative Biology, University of Liverpool, Liverpool, United Kingdom
