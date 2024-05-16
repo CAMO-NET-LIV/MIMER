@@ -154,7 +154,8 @@ The abstraction of complex data wrangling procedures into a library fulfills a c
                            transpose_key_column = 'ab_name',
                            transpose_value_column = 'interpretation',
                            fill = "N/A", 
-                           non_empty_filter_column='subject_id')
+                           non_empty_filter_column='subject_id',
+                           remove_duplicates = TRUE)
                                        
          subject_id  chartdate   CEFEPIME   CEFTAZIDIME
       1   90016742   2178-07-03        S         N/A
