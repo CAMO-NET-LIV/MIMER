@@ -48,30 +48,30 @@ The abstraction of complex data wrangling procedures into a library fulfills a c
      library(MIMER)
      
      MIMER::ndc_to_antimicrobial(ndc='65649030303', class='antibacterial')
-     ```
      
-        > library(MIMER)
-        > 
-        > MIMER::ndc_to_antimicrobial(ndc='65649030303', class='antibacterial')
-        Class 'ab'
+     Class 'ab'
         [1] RFX
-        > 
+     ```
 
     Checks if the given NDC is an antimicrobial drug.
-
-        > library(MIMER)
-        > 
-        > MIMER::ndc_is_antimicrobial(ndc='65649030303')
-        [1] TRUE
-        > 
+    
+     ```r
+     library(MIMER)
+     
+     MIMER::ndc_is_antimicrobial(ndc='65649030303')
+     
+      [1] TRUE
+     ```
      
     Check given route is systemic or not.
       
-        > library(MIMER)
-        > 
-        > MIMER::is_systemic_route(route='PO/NG')
+      ```r
+      library(MIMER)
+        
+      MIMER::is_systemic_route(route='PO/NG')
+         
         [1] TRUE
-        >
+      ```
     
     
 2.  Check previous events observed in the dataset within a particular period:
@@ -79,46 +79,46 @@ The abstraction of complex data wrangling procedures into a library fulfills a c
     MIMER offers a powerful functionality to analyze previous events within a dataset over a specified period. This feature is highly customizable, allowing users to define various parameters according to their analytical requirements. By leveraging this capability, users can gain insights into historical trends and patterns present in the dataset. This historical analysis proves invaluable for a wide range of analytical purposes, enabling researchers to make informed decisions and derive meaningful conclusions from the data.
     
     Example Usages:
-    
-        > 
-        > library(MIMER)
-        > 
-        > input_dataframe <- data.frame(subject_id=c('90016742','90016742','90016742',
-        +                                            '90016742','90016742','90038332',
-        +                                            '90038332','90038332','90038332',
-        +                                            '90038332','90038332'),
-        +                  chartdate= c('2178-07-03','2178-08-01','2178-08-01',
-        +                               '2178-08-01','2178-09-25','2164-07-31',
-        +                               '2164-12-22','2164-12-22','2165-01-07',
-        +                               '2165-04-17','2165-05-05'),
-        +                  CEFEPIME=c('R','R','R','R','S','R','R','R','S','S','S'),
-        +                  CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
-        >
-        > MIMER::check_previous_events(input_dataframe,
-        +                              cols = c('CEFEPIME','CEFTAZIDIME'),
-        +                              sort_by_col = 'chartdate',
-        +                              patient_id_col = 'subject_id',
-        +                              time_period_in_days = 62,
-        +                              minimum_prev_events = 2)
-        Checking Previous Events for 
-        CEFEPIME
-        CEFTAZIDIME
-        Total Antibiotics Column (Events) Added :  2
-        # A tibble: 11 × 6
-        subject_id chartdate  CEFEPIME CEFTAZIDIME pr_event_CEFEPIME pr_event_CEFTAZIDIME
-        <chr>      <chr>      <chr>    <chr>       <lgl>             <lgl>               
-        1 90038332   2164-07-31 R        S           FALSE             FALSE               
-        2 90038332   2164-12-22 R        S           FALSE             FALSE               
-        3 90038332   2164-12-22 R        S           FALSE             FALSE               
-        4 90038332   2165-01-07 S        R           TRUE              FALSE               
-        5 90038332   2165-04-17 S        R           FALSE             FALSE               
-        6 90038332   2165-05-05 S        S           FALSE             FALSE               
-        7 90016742   2178-07-03 R        S           FALSE             FALSE               
-        8 90016742   2178-08-01 R        R           FALSE             FALSE               
-        9 90016742   2178-08-01 R        S           FALSE             FALSE               
-        10 90016742   2178-08-01 R       R           FALSE             FALSE               
-        11 90016742   2178-09-25 S       R           TRUE              TRUE
-        >
+        
+    ```r
+    library(MIMER)
+      
+    input_dataframe <- data.frame(subject_id=c('90016742','90016742','90016742',
+                                                 '90016742','90016742','90038332',
+                                                 '90038332','90038332','90038332',
+                                                 '90038332','90038332'),
+                        chartdate= c('2178-07-03','2178-08-01','2178-08-01',
+                                     '2178-08-01','2178-09-25','2164-07-31',
+                                     '2164-12-22','2164-12-22','2165-01-07',
+                                     '2165-04-17','2165-05-05'),
+                        CEFEPIME=c('R','R','R','R','S','R','R','R','S','S','S'),
+                        CEFTAZIDIME=c('S','R','S','R','R','S','S','S','R','R','S'))
+      
+    MIMER::check_previous_events(input_dataframe,
+                                    cols = c('CEFEPIME','CEFTAZIDIME'),
+                                    sort_by_col = 'chartdate',
+                                    patient_id_col = 'subject_id',
+                                    time_period_in_days = 62,
+                                    minimum_prev_events = 2)
+    Checking Previous Events for 
+    CEFEPIME
+    CEFTAZIDIME
+    Total Antibiotics Column (Events) Added :  2
+    # A tibble: 11 × 6
+     subject_id chartdate  CEFEPIME CEFTAZIDIME pr_event_CEFEPIME pr_event_CEFTAZIDIME
+     <chr>      <chr>      <chr>    <chr>       <lgl>             <lgl>               
+    1 90038332   2164-07-31 R        S           FALSE             FALSE               
+    2 90038332   2164-12-22 R        S           FALSE             FALSE               
+    3 90038332   2164-12-22 R        S           FALSE             FALSE               
+    4 90038332   2165-01-07 S        R           TRUE              FALSE               
+    5 90038332   2165-04-17 S        R           FALSE             FALSE               
+    6 90038332   2165-05-05 S        S           FALSE             FALSE               
+    7 90016742   2178-07-03 R        S           FALSE             FALSE               
+    8 90016742   2178-08-01 R        R           FALSE             FALSE               
+    9 90016742   2178-08-01 R        S           FALSE             FALSE               
+    10 90016742   2178-08-01 R       R           FALSE             FALSE               
+    11 90016742   2178-09-25 S       R           TRUE              TRUE
+    ```
 
 3.  Transposing (pivoting) the microbiology dataset for Antimicrobial susceptibility testing (AST):
 
@@ -126,37 +126,38 @@ The abstraction of complex data wrangling procedures into a library fulfills a c
     
     Example Usages:
     
-        > 
-        > library(MIMER)
-        > 
-        > input_dataframe <- data.frame(subject_id=c('90016742','90016742','90016742',
-        +                                            '90016742','90016742','90038332',
-        +                                            '90038332','90038332','90038332',
-        +                                            '90038332','90038332'),
-        +                         chartdate= c('2178-07-03','2178-08-01','2178-08-01','2178-08-01',
-        +                                      '2178-09-25','2164-07-31','2164-12-22','2164-12-22',
-        +                                      '2165-01-07','2165-04-17','2165-05-05'),
-        +                         ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME',
-        +                                   'CEFTAZIDIME','CEFTAZIDIME','CEFEPIME','CEFEPIME',
-        +                                   'CEFTAZIDIME','CEFTAZIDIME','CEFEPIME'),
-        +                         interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
-        >
-        > 
-        > MIMER::transpose_microbioevents(input_dataframe, key_columns = c('subject_id','chartdate','ab_name') ,
-        +                                 required_columns =c('subject_id','chartdate'),
-        +                                 transpose_key_column = 'ab_name',
-        +                                 transpose_value_column = 'interpretation',
-        +                                 fill = "N/A", 
-        +                                 non_empty_filter_column='subject_id')
-        subject_id  chartdate CEFEPIME CEFTAZIDIME
-        1   90016742 2178-07-03        S         N/A
-        2   90016742 2178-08-01      N/A           R
-        3   90016742 2178-09-25      N/A           R
-        4   90038332 2164-07-31      N/A           S
-        5   90038332 2165-01-07      N/A           R
-        6   90038332 2165-04-17      N/A           R
-        7   90038332 2165-05-05        S         N/A
-        > 
+     ```r
+     library(MIMER)
+      
+     input_dataframe <- data.frame(subject_id=c('90016742','90016742','90016742',
+                                                  '90016742','90016742','90038332',
+                                                  '90038332','90038332','90038332',
+                                                  '90038332','90038332'),
+                               chartdate= c('2178-07-03','2178-08-01','2178-08-01','2178-08-01',
+                                            '2178-09-25','2164-07-31','2164-12-22','2164-12-22',
+                                            '2165-01-07','2165-04-17','2165-05-05'),
+                               ab_name=c('CEFEPIME','CEFTAZIDIME','CEFEPIME','CEFEPIME',
+                                         'CEFTAZIDIME','CEFTAZIDIME','CEFEPIME','CEFEPIME',
+                                         'CEFTAZIDIME','CEFTAZIDIME','CEFEPIME'),
+                               interpretation=c('S','R','S','R','R','S','S','S','R','R','S'))
+      
+       
+      MIMER::transpose_microbioevents(input_dataframe, key_columns = c('subject_id','chartdate','ab_name') ,
+                                       required_columns =c('subject_id','chartdate'),
+                                       transpose_key_column = 'ab_name',
+                                       transpose_value_column = 'interpretation',
+                                       fill = "N/A", 
+                                       non_empty_filter_column='subject_id')
+                                       
+         subject_id  chartdate   CEFEPIME   CEFTAZIDIME
+      1   90016742   2178-07-03        S         N/A
+      2   90016742   2178-08-01      N/A           R
+      3   90016742   2178-09-25      N/A           R
+      4   90038332   2164-07-31      N/A           S
+      5   90038332   2165-01-07      N/A           R
+      6   90038332   2165-04-17      N/A           R
+      7   90038332   2165-05-05        S         N/A
+      ```
 
 These features represent just a portion of MIMER's capabilities, and the project is designed to be scalable, allowing for the addition of more functionalities as needed.
 
