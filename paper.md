@@ -149,12 +149,12 @@ The abstraction of complex data wrangling procedures into a library fulfills a c
     11   90038332 2165-05-05    CEFEPIME              S
        
      > MIMER::transpose_microbioevents(input_dataframe, 
-                                       key_columns = c('subject_id','chartdate','ab_name') ,
-                                       required_columns =c('subject_id','chartdate'),
-                                       transpose_key_column = 'ab_name',
-                                       transpose_value_column = 'interpretation',
-                                       fill = "N/A", 
-                                       non_empty_filter_column='subject_id')
+                           key_columns = c('subject_id','chartdate','ab_name'),
+                           required_columns =c('subject_id','chartdate'),
+                           transpose_key_column = 'ab_name',
+                           transpose_value_column = 'interpretation',
+                           fill = "N/A", 
+                           non_empty_filter_column='subject_id')
                                        
          subject_id  chartdate   CEFEPIME   CEFTAZIDIME
       1   90016742   2178-07-03        S         N/A
