@@ -60,6 +60,11 @@ This is a basic example which shows you how to solve a common problem:
 
 ``` r
 library(MIMER)
+```
+
+    ## Warning: package 'MIMER' was built under R version 4.3.3
+
+``` r
 ## basic example code
 MIMER::ndc_to_antimicrobial(ndc='65649030303', class='antibacterial')
 ```
