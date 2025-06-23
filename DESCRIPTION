@@ -27,3 +27,4 @@ Imports:
     testthat,
     data.table,
     reshape2
+Depends: R (>= 4.1.0)
