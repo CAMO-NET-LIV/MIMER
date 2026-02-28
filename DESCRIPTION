@@ -1,6 +1,6 @@
 Package: MIMER
 Title: Data Wrangling for Antimicrobial Resistance Studies
-Version: 1.0.4
+Version: 1.0.5
 Authors@R: 
     c(person("Anoop", "Velluva", , "anoop.velluva@liverpool.ac.uk", role = c("aut", "cre"),
            comment = c(ORCID = "0009-0001-6198-6016")),
@@ -16,7 +16,7 @@ Description: Designed for analyzing the Medical Information Mart for Intensive C
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.3
 Imports: 
     AMR,
     dplyr,
