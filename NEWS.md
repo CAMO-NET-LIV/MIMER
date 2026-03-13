@@ -1,3 +1,5 @@
+# MIMER 1.0.6
+
 # MIMER 1.0.5
 
 # MIMER 1.0.4
