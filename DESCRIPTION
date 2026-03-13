@@ -2,9 +2,9 @@ Package: MIMER
 Title: Data Wrangling for Antimicrobial Resistance Studies
 Version: 1.0.5
 Authors@R: 
-    c(person("Anoop", "Velluva", , "anoop.velluva@liverpool.ac.uk", role = c("aut", "cre"),
+    c(person("Anoop", "Velluva", , "anoop.velluva@liverpool.ac.uk", role = c("aut"),
            comment = c(ORCID = "0009-0001-6198-6016")),
-    person("Alessandro", "Gerada", , "alessandro.gerada@liverpool.ac.uk", role = c("ctb"),
+    person("Alessandro", "Gerada", , "alessandro.gerada@liverpool.ac.uk", role = c("cre","ctb"),
            comment = c(ORCID = "0000-0002-6743-4271")),
     person("Alexander", "Howard", , "alexander.howard@liverpool.ac.uk", role = c("ctb"),
            comment = c(ORCID = "0000-0002-4195-6821")))
